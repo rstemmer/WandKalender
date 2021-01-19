@@ -1,0 +1,102 @@
+/*
+ * WandKalender,  a caldav front end for a simple event overview
+ * Copyright (C) 2021-2021  Ralf Stemmer <ralf.stemmer@gmx.net>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Source: ralf.stemmer@gmx.net https://github.com/rstemmer/musicdb/blob/master/webui/css/base.css
+ */
+/***********************/
+/* default color style */
+/***********************/
+
+:root
+{
+    --hlcolor:              #779;
+    --fgcolor:              #CCC;
+    --bgcolor:              #181819;
+    --fmcolor:              #779;
+    --radius:               0.3em;
+    --borderwidth:          0.1em;
+
+    --normalfontsize:       12pt;
+    --smallfontsize:         9pt;
+
+    --color-red:            #5E1F1F;
+    --color-yellow:         #5E5E1F;
+    --color-green:          #1F5E29;
+    --color-blue:           #1F1F5E;
+    --color-white:          #F0F0F0;
+    --color-gold:           #A8A623;
+    --color-gray:           #323234;
+    --color-brightred:      #CF4545;
+    --color-brightgreen:    #2C832C;
+    --color-brightblue:     #4545CF;
+    --color-brightyellow:   #ADAD3F;
+}
+
+
+
+.fgcolor
+{
+    color:              var(--fgcolor);
+}
+.hlcolor
+{
+    color:              var(--hlcolor);
+}
+.bgcolor
+{
+    background-color:   var(--bgcolor);
+}
+.fmcolor
+{
+    border-color:       var(--fmcolor);
+}
+
+
+/***********************/
+/* default font  style */
+/***********************/
+
+.smallfont
+{
+    font-size:          var(--smallfontsize);
+}
+.tinyfont
+{
+    font-family:        DejaVuSans;
+    font-size:          6px;
+}
+.seriffont
+{
+    font-family:        SourceSerifPro;
+}
+
+
+/*************************/
+/* default element style */
+/*************************/
+
+div
+{
+    scrollbar-width:    none;
+}
+
+
+/* vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 
+ */
+
