@@ -17,6 +17,11 @@
 window.onload = function ()
 {
     window.console && console.log("Hello World");
+
+    window.WandKalender.caldav = new CalDAV(window.WandKalender.serverurl,
+                                            window.WandKalender.username,
+                                            window.WandKalender.password);
+    window.WandKalender.caldav.PropFind(["d:displayname"]);
 }
 
 
