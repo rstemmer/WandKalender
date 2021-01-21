@@ -31,9 +31,9 @@ class Login extends Element
         this.passwordinput  = new Input("text", null, this.password);
         this.serverurlinput = new Input("text", null, this.serverurl);
         this.loginbutton    = new Element("button");
-        this.loginbutton.GetHTMLElement().onclick = ()=>{this.onLogin();};
-        this.loginbutton.GetHTMLElement().type    = "button";
-        this.loginbutton.GetHTMLElement().value   = "login";
+        this.loginbutton.GetHTMLElement().onclick   = ()=>{this.onLogin();};
+        this.loginbutton.GetHTMLElement().type      = "button";
+        this.loginbutton.GetHTMLElement().innerText = "login";
 
         this.AppendChild(this.usernameinput );
         this.AppendChild(this.passwordinput );
