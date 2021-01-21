@@ -14,13 +14,41 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
+
 window.onload = function ()
 {
     window.console && console.log("Hello World");
 
-    window.WandKalender.caldav = new CalDAV(window.WandKalender.serverurl,
-                                            window.WandKalender.username,
-                                            window.WandKalender.password);
+    // Source: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
+    if(document.readyState === 'loading')
+    {
+        // Loading hasn't finished yet
+        document.addEventListener('DOMContentLoaded', Initialize());
+    }
+    else
+    {
+        // `DOMContentLoaded` has already fired
+        Initialize();
+    }
+
+
+}
+
+
+
+function Initialize()
+{
+    let login  = new Login((serverurl, username, password)=>{onLogin(serverurl, username, password);});
+    let screen = document.getElementById("Screen");
+    screen.appendChild(login.GetHTMLElement());
+}
+
+
+
+function onLogin(serverurl, username, password)
+{
+    window.WandKalender.caldav = new CalDAV(serverurl, username, password);
     window.WandKalender.caldav.PropFind(["d:displayname"]);
 }
 
