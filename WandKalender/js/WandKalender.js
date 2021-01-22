@@ -39,9 +39,9 @@ window.onload = function ()
 
 function Initialize()
 {
-    let login  = new Login((serverurl, webdavinterface, username, password)=>
+    let login  = new Login((servername, webdavinterface, username, password)=>
         {
-            onLogin(serverurl, webdavinterface, username, password);
+            onLogin(servername, webdavinterface, username, password);
         });
     let screen = document.getElementById("Screen");
     screen.appendChild(login.GetHTMLElement());
@@ -49,9 +49,9 @@ function Initialize()
 
 
 
-function onLogin(serverurl, webdavinterface, username, password)
+function onLogin(servername, webdavinterface, username, password)
 {
-    window.WandKalender.caldav = new CalDAV(serverurl, webdavinterface, username, password);
+    window.WandKalender.caldav = new CalDAV(servername, webdavinterface, username, password);
     window.WandKalender.caldav.PropFind(["d:displayname"]);
 }
 

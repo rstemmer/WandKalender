@@ -26,11 +26,11 @@
 
 class CalDAV
 {
-    constructor(serverurl, webdavinterface, username, password)
+    constructor(servername, webdavinterface, username, password)
     {
         this.username        = username;
         this.password        = password;
-        this.serverurl       = serverurl;
+        this.servername      = servername;
         this.webdavinterface = webdavinterface;
     }
 
@@ -74,7 +74,7 @@ class CalDAV
 
         let xmlrequest = new XMLHttpRequest();
         // TODO: Check if the / characters are set correct
-        xmlrequest.open(method, `${this.serverurl}${this.webdavinterface}`, true /*Async*/);
+        xmlrequest.open(method, `${this.servername}${this.webdavinterface}`, true /*Async*/);
 
         for(let entry in header)
         {
