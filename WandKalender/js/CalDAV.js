@@ -32,6 +32,8 @@ class CalDAV
         this.password        = password;
         this.servername      = servername;
         this.webdavinterface = webdavinterface;
+        this.namespaces      = `xmlns:d="DAV:" xmlns:cs="http://calendarserver.org/ns/" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns" xmlns:c="urn:ietf:params:xml:ns:caldav"`; // TODO: build interface for namespaces
+        this.xmlparser       = new DOMParser();
     }
 
 
@@ -44,28 +46,99 @@ class CalDAV
 
         let body = "";
         body += `<?xml version="1.0"?>\n`;
-        body += `<d:propfind xmlns:d="DAV:" xmlns:cs="${this.servername}">\n`;
+        body += `<d:propfind ${this.namespaces}>\n`;
         body += `<d:prop>\n`;
         for(let property of properties)
         {
             body += `<${property} />\n`;
         }
-        body += `<cs:getctag />\n`;
+        body += `<d:getetag />\n`; // not working
+        //body += `<d:acl />\n`;
+        //body += `<cs:getctag />\n`;
         body += `</d:prop>\n`;
         body += `</d:propfind>\n`;
+        window.console && console.log(body);
 
-        this.Request("PROPFIND", header, body);
+        this.Request("PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext);});
     }
 
 
 
-    Report()
+    onPropFindResponse(responsetext)
     {
+        let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
+        //window.console && console.log(xml);
+
+        let responses = xml.getElementsByTagName("d:response");
+        for(let response of responses)
+        {
+            //window.console && console.log(response);
+            let calendar  = response.getElementsByTagName("d:href")[0];
+            let propstats = response.getElementsByTagName("d:propstat");
+            for(let propstat of propstats)
+            {
+                let pstatus = propstat.getElementsByTagName("d:status")[0];
+                if(pstatus.textContent !== "HTTP/1.1 200 OK")
+                    continue;
+
+                let props = propstat.getElementsByTagName("d:prop")[0].childNodes;
+                window.console && console.log(`Props for: ${calendar.textContent}`);
+                window.console && console.log(props);
+                for(let prop of props)
+                {
+                    if(prop.nodeName === "d:displayname")
+                        window.console && console.log(prop.textContent);
+                    /*
+                    if(prop.nodeName === "cs:getctag")
+                        window.console && console.log(prop.textContent);
+                    */
+                }
+            }
+        }
     }
 
 
 
-    Request(method, header, body)
+    Report(properties)   // TODO: in progress
+    {
+        let header = new Object();
+        header["Content-Type"] = "application/xml; charset=utf-8";
+        header["Depth"]        = "1";
+        header["Prefer"]       = "return-minimal";
+
+        let body = "";
+        body += `<?xml version="1.0"?>\n`;
+        body += `<c:calendar-query ${this.namespaces}>\n`;
+        body += `<d:prop>\n`;
+        body +=     `<d:getetag />\n`;
+        body +=     `<d:displayname />\n`;
+        body +=     `<c:calendar-data />\n`;
+        //for(let property of properties)
+        //{
+        //    body += `<${property} />\n`;
+        //}
+        body += `</d:prop>\n`;
+        body += `<c:filter>\n`;
+        body +=     `<c:comp-filter name="VCALENDAR" />\n`;
+        body += `</c:filter>\n`;
+        body += `</c:calendar-query>\n`;
+
+        this.Request("REPORT", header, body, (responsetext)=>{this.onReportResponse(responsetext);});
+    }
+
+
+
+    onReportResponse(responsetext)   // TODO: in progress
+    {
+        let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
+        window.console && console.log(xml);
+        window.console && console.log(xml.childNodes[0]);
+        window.console && console.log(xml.childNodes[0].childNodes);
+    }
+
+
+
+    Request(method, header, body, onresponse)
     {
         let auth = btoa(`${this.username}:${this.password}`);
 
@@ -75,6 +148,7 @@ class CalDAV
         let xmlrequest = new XMLHttpRequest();
         // TODO: Check if the / characters are set correct
         xmlrequest.open(method, `${this.servername}${this.webdavinterface}`, true /*Async*/);
+        //xmlrequest.open(method, `${this.servername}${this.webdavinterface}/personal`, true /*Async*/);
 
         for(let entry in header)
         {
@@ -83,12 +157,10 @@ class CalDAV
         //xmlrequest.withCredentials=true;
 
         xmlrequest.send(body);
-        xmlrequest.onreadystatechange = ()=>
-            {
-                window.console && console.log(xmlrequest.responseText);
-                if(xmlrequest.readyState !== 4 || xmlrequest.status !== 200)
-                    return;
-            }
+        xmlrequest.onload    = ()=>{onresponse(xmlrequest.responseText);};
+        xmlrequest.onerror   = ()=>{window.console && console.log(xmlrequest);};
+        xmlrequest.ontimeout = ()=>{window.console && console.log(xmlrequest);};
+        xmlrequest.onabort   = ()=>{window.console && console.log(xmlrequest);};
         return;
     }
 }
