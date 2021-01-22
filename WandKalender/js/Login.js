@@ -26,7 +26,6 @@ class Login extends Element
         this.onlogin   = onlogin;
         this.servername      = window.localStorage.getItem("servername"     ) || "";
         this.webdavinterface = window.localStorage.getItem("webdavinterface") || "";
-        this.serverurl       = window.localStorage.getItem("serverurl"      ) || "";
         this.username        = window.localStorage.getItem("username"       ) || "";
         this.password        = window.localStorage.getItem("password"       ) || "";
         this.servernameinput      = new Input("text", null, this.servername);
