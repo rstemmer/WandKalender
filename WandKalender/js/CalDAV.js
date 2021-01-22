@@ -26,11 +26,12 @@
 
 class CalDAV
 {
-    constructor(serverurl, username, password)
+    constructor(serverurl, webdavinterface, username, password)
     {
-        this.username  = username;
-        this.password  = password;
-        this.serverurl = serverurl;
+        this.username        = username;
+        this.password        = password;
+        this.serverurl       = serverurl;
+        this.webdavinterface = webdavinterface;
     }
 
 
@@ -39,12 +40,11 @@ class CalDAV
     PropFind(properties)
     {
         let header = new Object();
-        header["Depth"]        = "0";
         header["Content-Type"] = "application/xml; charset=utf-8";
 
         let body = "";
         body += `<?xml version="1.0"?>\n`;
-        body += `<d:propfind xmlns:d="DAV:">\n`;
+        body += `<d:propfind xmlns:d="DAV:" xmlns:cs="${this.servername}">\n`;
         body += `<d:prop>\n`;
         for(let property of properties)
         {
@@ -68,27 +68,26 @@ class CalDAV
     Request(method, header, body)
     {
         let auth = btoa(`${this.username}:${this.password}`);
+
         header["Authorization"] = `Basic ${auth}`;
+        //header["OCS-APIRequest"] = "true";
 
         let xmlrequest = new XMLHttpRequest();
-        xmlrequest.open(method, this.serverurl, true /*Async*/);
+        // TODO: Check if the / characters are set correct
+        xmlrequest.open(method, `${this.serverurl}${this.webdavinterface}`, true /*Async*/);
+
         for(let entry in header)
         {
             xmlrequest.setRequestHeader(entry, header[entry]);
         }
+        //xmlrequest.withCredentials=true;
+
         xmlrequest.send(body);
         xmlrequest.onreadystatechange = ()=>
             {
+                window.console && console.log(xmlrequest.responseText);
                 if(xmlrequest.readyState !== 4 || xmlrequest.status !== 200)
                     return;
-
-                let type = xmlrequest.getResponseHeader("Content-Type");
-                window.console && console.log(type);
-                if(type.indexOf("text") !== 1)
-                {
-                    window.console && console.log(xmlrequest.responseText);
-                }
-                return;
             }
         return;
     }

@@ -24,38 +24,44 @@ class Login extends Element
     {
         super("div", ["Login"]);
         this.onlogin   = onlogin;
-        this.username  = window.localStorage.getItem("username" ) || "";
-        this.password  = window.localStorage.getItem("password" ) || "";
-        this.serverurl = window.localStorage.getItem("serverurl") || "";
-        this.usernameinput  = new Input("text", null, this.username);
-        this.passwordinput  = new Input("text", null, this.password);
-        this.serverurlinput = new Input("text", null, this.serverurl);
-        this.loginbutton    = new Element("button");
+        this.servername      = window.localStorage.getItem("servername"     ) || "";
+        this.webdavinterface = window.localStorage.getItem("webdavinterface") || "";
+        this.serverurl       = window.localStorage.getItem("serverurl"      ) || "";
+        this.username        = window.localStorage.getItem("username"       ) || "";
+        this.password        = window.localStorage.getItem("password"       ) || "";
+        this.servernameinput      = new Input("text", null, this.servername);
+        this.webdavinterfaceinput = new Input("text", null, this.webdavinterface);
+        this.usernameinput        = new Input("text", null, this.username);
+        this.passwordinput        = new Input("text", null, this.password);
+        this.loginbutton          = new Element("button");
         this.loginbutton.GetHTMLElement().onclick   = ()=>{this.onLogin();};
         this.loginbutton.GetHTMLElement().type      = "button";
         this.loginbutton.GetHTMLElement().innerText = "login";
 
-        this.AppendChild(this.usernameinput );
-        this.AppendChild(this.passwordinput );
-        this.AppendChild(this.serverurlinput);
-        this.AppendChild(this.loginbutton   );
+        this.AppendChild(this.servernameinput     );
+        this.AppendChild(this.webdavinterfaceinput);
+        this.AppendChild(this.usernameinput       );
+        this.AppendChild(this.passwordinput       );
+        this.AppendChild(this.loginbutton         );
     }
 
 
 
     onLogin()
     {
-        this.username  = this.usernameinput.GetValue();
-        this.password  = this.passwordinput.GetValue();
-        this.serverurl = this.serverurlinput.GetValue();
+        this.servername      = this.servernameinput.GetValue();
+        this.webdavinterface = this.webdavinterfaceinput.GetValue();
+        this.username        = this.usernameinput.GetValue();
+        this.password        = this.passwordinput.GetValue();
 
-        window.localStorage.setItem("username" , this.username );
-        window.localStorage.setItem("password" , this.password );
-        window.localStorage.setItem("serverurl", this.serverurl);
+        window.localStorage.setItem("servername",      this.servername     );
+        window.localStorage.setItem("webdavinterface", this.webdavinterface);
+        window.localStorage.setItem("username" ,       this.username       );
+        window.localStorage.setItem("password" ,       this.password       );
 
         if(typeof this.onlogin === "function")
         {
-            this.onlogin(this.serverurl, this.username, this.password);
+            this.onlogin(this.servername, this.webdavinterface, this.username, this.password);
         }
         return;
     }
