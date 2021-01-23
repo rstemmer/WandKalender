@@ -31,12 +31,15 @@ class Calendar
 
     UpdateCalendar()
     {
+        this.events = new Array();
         this.caldav.Report(this.calurl, ["c:calendar-data"], (ical)=>{this.onCalendarUpdate(ical);});
     }
 
     onCalendarUpdate(calevent)
     {
-        window.console && console.log(calevent);
+        //window.console && console.log(calevent);
+        let calevent = new Event(calevent["cal:calendar-data"]);
+        this.events.push(calevent);
     }
 }
 
@@ -62,7 +65,6 @@ class CalendarManager
     {
         if(!calprops.hasOwnProperty("d:displayname"))
             return;
-        window.console && console.log(calprops);
 
         let calurl   = calprops["d:href"];
         let calname  = calprops["d:displayname"];
