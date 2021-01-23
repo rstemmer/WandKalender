@@ -51,9 +51,12 @@ function Initialize()
 
 function onLogin(servername, webdavinterface, username, password)
 {
+    window.WandKalender.manager = new CalendarManager(servername, webdavinterface, username, password);
+    /*
     window.WandKalender.caldav = new CalDAV(servername, webdavinterface, username, password);
     window.WandKalender.caldav.PropFind(["d:displayname"]);
     window.WandKalender.caldav.Report(["d:getetag", "c:calendar-data"]);
+    */
 }
 
 

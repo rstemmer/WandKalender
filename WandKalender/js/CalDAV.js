@@ -39,7 +39,7 @@ class CalDAV
 
 
     // Get all properties (Array of strings): new Array("d:displayname"); for <d:displayname/>
-    PropFind(properties)
+    PropFind(properties, onresponse)
     {
         let header = new Object();
         header["Content-Type"] = "application/xml; charset=utf-8";
@@ -57,24 +57,24 @@ class CalDAV
         //body += `<cs:getctag />\n`;
         body += `</d:prop>\n`;
         body += `</d:propfind>\n`;
-        window.console && console.log(body);
 
-        this.Request("PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext);});
+        this.Request("PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext, onresponse);});
     }
 
 
 
-    onPropFindResponse(responsetext)
+    onPropFindResponse(responsetext, onresponse)
     {
         let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
-        //window.console && console.log(xml);
 
         let responses = xml.getElementsByTagName("d:response");
         for(let response of responses)
         {
-            //window.console && console.log(response);
-            let calendar  = response.getElementsByTagName("d:href")[0];
+            let href      = response.getElementsByTagName("d:href")[0];
             let propstats = response.getElementsByTagName("d:propstat");
+            let calendar  = new Object();
+            calendar["d:href"] = href.textContent;
+
             for(let propstat of propstats)
             {
                 let pstatus = propstat.getElementsByTagName("d:status")[0];
@@ -82,18 +82,11 @@ class CalDAV
                     continue;
 
                 let props = propstat.getElementsByTagName("d:prop")[0].childNodes;
-                window.console && console.log(`Props for: ${calendar.textContent}`);
-                window.console && console.log(props);
                 for(let prop of props)
-                {
-                    if(prop.nodeName === "d:displayname")
-                        window.console && console.log(prop.textContent);
-                    /*
-                    if(prop.nodeName === "cs:getctag")
-                        window.console && console.log(prop.textContent);
-                    */
-                }
+                    calendar[prop.nodeName] = prop.textContent;
             }
+
+            onresponse(calendar);
         }
     }
 
