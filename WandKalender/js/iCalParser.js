@@ -100,6 +100,23 @@ class iCalParser
 
 
 
+    ParseRRULE(rrulestring)
+    {
+        let rrule = new Object();
+
+            // FREQ=DAILY;COUNT=5;INTERVAL=2
+        let props = rrulestring.split(";");
+        for(let prop of props)
+        {
+            let key, value;
+            [key, value] = prop.split("=");
+            rrule[key] = value;
+        }
+        return rrule;
+    }
+
+
+
     // Returns an object with the following information
     //  · name as string
     //  · all-day as Boolean
@@ -119,7 +136,7 @@ class iCalParser
             }
             else if(key.startsWith("RRULE"))
             {
-                eventinfo["repeats"] = this.icalevent[key];
+                eventinfo["repeats"] = this.ParseRRULE(this.icalevent[key]);
             }
             else if(key.startsWith("DTSTART"))
             {

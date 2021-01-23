@@ -17,6 +17,27 @@
 "use strict";
 
 
+class CalendarEntry
+{
+    // Date can be the begin of an entry or the whole entry if all-day is true
+    constructor(name, date, end=null)
+    {
+        this.name   = name;
+        this.date   = date;
+        if(end === null)
+        {
+            this.allday = true;
+            this.end    = null;
+        }
+        else
+        {
+            this.allday = false;
+            this.end    = end;
+        }
+    }
+}
+
+
 // One event can have multiple dates in case an event is periodic!
 class Event extends iCalParser
 {
@@ -29,19 +50,60 @@ class Event extends iCalParser
 
 
 
-    // returns an array with objects that have the following information:
-    //  · name
-    //  · day
-    //  · all-day
-    //  · begin
-    //  · end
+    // returns an array with objects of type CalendarEntry
     GetDates()
     {
+        let entries    = new Array();
         let eventinfos = super.GetEventInformation();
-        window.console && console.log(eventinfos);
+
+        let name   = eventinfos["name"];
+        let allday = eventinfos["all-day"];
+        let begin  = eventinfos["begin"];
+        let end    = eventinfos["end"];
+
+        // Create first entry
+        let entry;
+        if(allday)
+            entry = new CalendarEntry(name, new Date(begin));
+        else
+            entry = new CalendarEntry(name, new Date(begin), new Date(end));
+        entries.push(entry);
+
+        // Create further entries if the event repeats
         if(eventinfos.hasOwnProperty("repeats"))
         {
+            // FREQ=DAILY;COUNT=5;INTERVAL=2
+            let rules     = eventinfos["repeats"];
+            let count     = parseInt(rules["COUNT"]);
+            let interval  = parseInt(rules["INTERVAL"]);
+            let frequency = rules["FREQ"];
+            let date      = begin;
+
+            for(let i=1; i<count; i++) // Start with 1, because 0 has already been processed
+            {
+                switch(frequency)
+                {
+                    case "DAILY":   date.setDate(date.getDate() + interval  ); break;
+                    case "WEEKLY":  date.setDate(date.getDate() + interval*7); break;
+                    case "MONTHLY": date.setMonth(date.getMonth() + interval); break;
+                }
+
+                if(allday)
+                    entry = new CalendarEntry(name, new Date(date));
+                else
+                {
+                    end.setFullYear(date.getFullYear());
+                    end.setMonth(date.getMonth());
+                    end.setDate(date.getDate());
+                    entry = new CalendarEntry(name, new Date(date), new Date(end));
+                }
+
+                entries.push(entry);
+            }
         }
+
+        window.console && console.log(entries);
+        return entries;
     }
 }
 

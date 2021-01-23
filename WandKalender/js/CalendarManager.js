@@ -35,10 +35,10 @@ class Calendar
         this.caldav.Report(this.calurl, ["c:calendar-data"], (ical)=>{this.onCalendarUpdate(ical);});
     }
 
-    onCalendarUpdate(calevent)
+    onCalendarUpdate(caleventdata)
     {
         //window.console && console.log(calevent);
-        let calevent = new Event(calevent["cal:calendar-data"]);
+        let calevent = new Event(caleventdata["cal:calendar-data"]);
         this.events.push(calevent);
     }
 }
