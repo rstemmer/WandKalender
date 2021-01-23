@@ -58,7 +58,8 @@ class CalDAV
         body += `</d:prop>\n`;
         body += `</d:propfind>\n`;
 
-        this.Request("PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext, onresponse);});
+        let url = `${this.servername}${this.webdavinterface}`;
+        this.Request(url, "PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext, onresponse);});
     }
 
 
@@ -92,7 +93,7 @@ class CalDAV
 
 
 
-    Report(properties)   // TODO: in progress
+    Report(calurl, properties, onresponse)
     {
         let header = new Object();
         header["Content-Type"] = "application/xml; charset=utf-8";
@@ -103,35 +104,51 @@ class CalDAV
         body += `<?xml version="1.0"?>\n`;
         body += `<c:calendar-query ${this.namespaces}>\n`;
         body += `<d:prop>\n`;
-        body +=     `<d:getetag />\n`;
-        body +=     `<d:displayname />\n`;
-        body +=     `<c:calendar-data />\n`;
-        //for(let property of properties)
-        //{
-        //    body += `<${property} />\n`;
-        //}
+        for(let property of properties)
+        {
+            body += `<${property} />\n`;
+        }
         body += `</d:prop>\n`;
         body += `<c:filter>\n`;
         body +=     `<c:comp-filter name="VCALENDAR" />\n`;
         body += `</c:filter>\n`;
         body += `</c:calendar-query>\n`;
 
-        this.Request("REPORT", header, body, (responsetext)=>{this.onReportResponse(responsetext);});
+        let url = location.origin + calurl;
+        this.Request(url, "REPORT", header, body, (responsetext)=>{this.onReportResponse(responsetext, onresponse);});
     }
 
 
 
-    onReportResponse(responsetext)   // TODO: in progress
+    onReportResponse(responsetext, onresponse)
     {
         let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
-        window.console && console.log(xml);
-        window.console && console.log(xml.childNodes[0]);
-        window.console && console.log(xml.childNodes[0].childNodes);
+        let responses = xml.getElementsByTagName("d:response");
+        for(let response of responses)
+        {
+            let href      = response.getElementsByTagName("d:href")[0];
+            let propstats = response.getElementsByTagName("d:propstat");
+            let calevent  = new Object();
+            calevent["d:href"] = href.textContent;
+
+            for(let propstat of propstats)
+            {
+                let pstatus = propstat.getElementsByTagName("d:status")[0];
+                if(pstatus.textContent !== "HTTP/1.1 200 OK")
+                    continue;
+
+                let props = propstat.getElementsByTagName("d:prop")[0].childNodes;
+                for(let prop of props)
+                    calevent[prop.nodeName] = prop.textContent;
+            }
+
+            onresponse(calevent);
+        }
     }
 
 
 
-    Request(method, header, body, onresponse)
+    Request(url, method, header, body, onresponse)
     {
         let auth = btoa(`${this.username}:${this.password}`);
 
@@ -139,9 +156,7 @@ class CalDAV
         //header["OCS-APIRequest"] = "true";
 
         let xmlrequest = new XMLHttpRequest();
-        // TODO: Check if the / characters are set correct
-        xmlrequest.open(method, `${this.servername}${this.webdavinterface}`, true /*Async*/);
-        //xmlrequest.open(method, `${this.servername}${this.webdavinterface}/personal`, true /*Async*/);
+        xmlrequest.open(method, url, true /*Async*/);
 
         for(let entry in header)
         {

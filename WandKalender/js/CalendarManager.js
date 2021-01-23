@@ -19,11 +19,24 @@
 
 class Calendar
 {
-    constructor(caldavclient, url, name)
+    constructor(caldavclient, calurl, name)
     {
         this.caldav = caldavclient;
-        this.url    = url;
+        this.calurl = calurl;
         this.name   = name;
+        this.UpdateCalendar();
+    }
+
+
+
+    UpdateCalendar()
+    {
+        this.caldav.Report(this.calurl, ["c:calendar-data"], (ical)=>{this.onCalendarUpdate(ical);});
+    }
+
+    onCalendarUpdate(calevent)
+    {
+        window.console && console.log(calevent);
     }
 }
 
