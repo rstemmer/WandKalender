@@ -43,8 +43,11 @@ function Initialize()
         {
             onLogin(servername, webdavinterface, username, password);
         });
+    let calendar = new MonthCalendar(new Array());
+
     let screen = document.getElementById("Screen");
     screen.appendChild(login.GetHTMLElement());
+    screen.appendChild(calendar.GetHTMLElement());
 }
 
 

@@ -17,7 +17,7 @@
 "use strict";
 
 
-class Calendar
+class CalendarData
 {
     constructor(caldavclient, calurl, name)
     {
@@ -69,7 +69,7 @@ class CalendarManager
         let calurl   = calprops["d:href"];
         let calname  = calprops["d:displayname"];
 
-        let calendar = new Calendar(this.caldav, calurl, calname);
+        let calendar = new CalendarData(this.caldav, calurl, calname);
         this.calendars.push(calendar);
         return;
     }
