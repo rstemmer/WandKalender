@@ -26,12 +26,14 @@
 
 class CalDAV
 {
-    constructor(servername, webdavinterface, username, password)
+    constructor(caldavurl, username, password)
     {
         this.username        = username;
         this.password        = password;
-        this.servername      = servername;
-        this.webdavinterface = webdavinterface;
+        this.caldavurl       = caldavurl;
+        if(this.caldavurl.slice(-1) !== "/")
+            this.caldavurl  += "/"
+        this.caldavurl      += username;
         this.namespaces      = `xmlns:d="DAV:" xmlns:cs="http://calendarserver.org/ns/" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns" xmlns:c="urn:ietf:params:xml:ns:caldav"`; // TODO: build interface for namespaces
         this.xmlparser       = new DOMParser();
     }
@@ -60,7 +62,7 @@ class CalDAV
         body += `</d:prop>\n`;
         body += `</d:propfind>\n`;
 
-        let url = `${this.servername}${this.webdavinterface}`;
+        let url = `${this.caldavurl}`;
         this.Request(url, "PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext, onresponse, oncomplete);});
     }
 

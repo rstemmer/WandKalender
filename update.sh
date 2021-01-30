@@ -14,6 +14,7 @@ rsync -uav  \
     --exclude '*.swp' \
     --exclude '*.swo' \
     --exclude '*~' \
+    --exclude 'config.js' \
     --delete \
     $SOURCEDIR/ $DESTINATION/. > /dev/null
 

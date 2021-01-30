@@ -65,12 +65,13 @@ class CalendarData
  */
 class CalendarManager
 {
-    constructor(servername, webdavinterface, username, password)
+    constructor(username, password)
     {
-        this.userslist = ["testuser"]; // List of allowed users
-        this.holidaycalendars = ["FakeFeiertage"]; // List of holiday calendars
-        this.usersdata     = null; // List of users data
-        this.caldav = new CalDAV(servername, webdavinterface, username, password);
+        this.userslist        = Object.keys(window.WandKalender.config.users);
+        this.holidaycalendars = window.WandKalender.config.holidaycalendars;
+        this.caldavurl        = window.WandKalender.config.caldavurl;
+        this.usersdata        = null; // List of users data will be set by FindAllCalendars
+        this.caldav = new CalDAV(this.caldavurl, username, password);
         this.calui  = new MonthCalendar(this.userslist, this.holidaycalendars);
 
         this.nextstate  = "Idle";

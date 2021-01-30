@@ -39,9 +39,9 @@ window.onload = function ()
 
 function Initialize()
 {
-    let login  = new Login((servername, webdavinterface, username, password)=>
+    let login  = new Login((username, password)=>
         {
-            onLogin(servername, webdavinterface, username, password);
+            onLogin(username, password);
         });
 
     let screen = document.getElementById("Screen");
@@ -50,9 +50,9 @@ function Initialize()
 
 
 
-function onLogin(servername, webdavinterface, username, password)
+function onLogin(username, password)
 {
-    window.WandKalender.manager = new CalendarManager(servername, webdavinterface, username, password);
+    window.WandKalender.manager = new CalendarManager(username, password);
 }
 
 

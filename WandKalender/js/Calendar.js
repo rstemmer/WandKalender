@@ -119,17 +119,16 @@ class Row extends Element
 
 class CalendarHeadline extends Row
 {
-    constructor(users)
+    constructor()
     {
-        super(users.length + 1);
+        let users = window.WandKalender.config.users;
+        super(Object.keys(users).length + 1);
 
         let index = 1;
-        for(let user of users)
+        for(let [user, username] of Object.entries(users))
         {
-            let name = user;
-
             let cell = new Element("div");
-            cell.SetInnerText(name);
+            cell.SetInnerText(username);
             this.SetContent(index, cell);
 
             index += 1;
@@ -226,14 +225,14 @@ class MonthCalendar extends Table
         window.console && console.log(`first: ${this.firstDay}`);
         window.console && console.log(`last:  ${this.lastDay}`);
 
-        let headline = new CalendarHeadline(this.users);
+        let headline = new CalendarHeadline();
         this.AddRow(headline);
 
         let date    = new Date(this.firstDay);
         this.dayrow = new Object();
         for(let daynum = 1; daynum <= this.lastDay.getDate(); daynum++)
         {
-            let row = new CalendarRow(date, this.users.length + 1);
+            let row = new CalendarRow(date, this.users.length);
             //window.console && console.log(row);
             this.AddRow(row);
 
