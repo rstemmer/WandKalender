@@ -104,6 +104,13 @@ class Row extends Element
         this.cells[cellnum].AppendChild(cell);
     }
 
+    AddContentOnTop(cellnum, cellcontent)
+    {
+        let cell = this.cells[cellnum];
+        let element = cell.GetHTMLElement();
+        element.insertBefore(cellcontent.GetHTMLElement(), element.firstChild);
+    }
+
 
 
     Clear()
@@ -184,8 +191,11 @@ class CalendarRow extends Row
     UpdateCell(column, entry)
     {
         let cell = new CalendarCellEntry(entry);
-        //cell.SetInnerText(`${entry.name}`);
-        this.AddContent(column, cell);
+        let allday = entry.allday;
+        if(allday && column != 0)   // Column 0 is the day. So entry is a holiday and shall be placed below the day-info
+            this.AddContentOnTop(column, cell);
+        else
+            this.AddContent(column, cell);
     }
 }
 
