@@ -64,9 +64,10 @@ class CalendarManager
     constructor(servername, webdavinterface, username, password)
     {
         this.userslist = ["testuser"]; // List of allowed users
+        this.holidaycalendars = ["FakeFeiertage"]; // List of holiday calendars
         this.usersdata     = null; // List of users data
         this.caldav = new CalDAV(servername, webdavinterface, username, password);
-        this.calui  = new MonthCalendar(this.userslist);
+        this.calui  = new MonthCalendar(this.userslist, this.holidaycalendars);
 
         this.nextstate  = "Idle";
         this.updatetick = setTimeout(()=>{this.Tick();}, 1000/*ms*/);

@@ -151,7 +151,16 @@ class CalendarRow extends Row
         this.dayid   = date.getDay();
         this.day     = DAYS[this.dayid];
 
+        if(this.dayid === 0 || this.dayid === 6)
+            this.element.classList.add("weekend");
+
         this.CreateDayCell();
+    }
+
+
+    SetHoliday()
+    {
+        this.element.classList.add("weekend");
     }
 
 
@@ -186,10 +195,11 @@ class CalendarRow extends Row
 class MonthCalendar extends Table
 {
     // Calendars: CalendarData objects array
-    constructor(users)
+    constructor(users, holidaycalendars)
     {
         super();
         this.users = users;
+        this.holidaycalendars = holidaycalendars;
         this.element.classList.add("Calendar");
 
         this.now      = null;
@@ -248,15 +258,24 @@ class MonthCalendar extends Table
                 // Data not yet ready? Skip this calendar for now.
                 if(calendar.valid !== true)
                     continue;
+
                 window.console && console.log(calendar);
-                window.console && console.log(calendar.events);
+
+                // Check if this is a holiday entry
+                let isholiday = false;
+                window.console && console.log(this.holidaycalendars.indexOf(calendar.name));
+                if(this.holidaycalendars.indexOf(calendar.name) >= 0)
+                    isholiday = true;
+                window.console && console.log(`Is Holiday: ${isholiday}`);
+
+                //window.console && console.log(calendar.events);
                 for(let calevent of calendar.events) // keep in mind that an event can be repetitive
                 {
                     for(let calentry of calevent.entries)
                     {
-                        window.console && console.log(calentry);
+                        //window.console && console.log(calentry);
                         let date = calentry.date;
-                        this.UpdateCell(user, date, calentry);
+                        this.UpdateCell(user, date, calentry, isholiday);
                     }
                 }
             }
@@ -271,12 +290,21 @@ class MonthCalendar extends Table
 
 
 
-    UpdateCell(user, date, entry)
+    UpdateCell(user, date, entry, isholiday)
     {
         if(date.getMonth() != this.now.getMonth())
             return;
         let daynum = date.getDate();
-        let column = this.users.indexOf(user) + 1;
+        let column;
+        if(isholiday == true)
+        {
+            this.dayrow[daynum].SetHoliday();
+            column = 0;
+        }
+        else 
+        {
+            column = this.users.indexOf(user) + 1;
+        }
         this.dayrow[daynum].UpdateCell(column, entry);
     }
 }
