@@ -29,12 +29,7 @@ body
     height:             100vh;
     margin:             0 auto;
     overflow:           hidden;
-    font-family:        SourceSansPro, DejaVuSans;
-    font-size:          var(--normalfontsize);
     cursor:             default;
-
-    background-image:   url(../img/Noise10.png);
-    background-repeat:  repeat;
 }
 
 

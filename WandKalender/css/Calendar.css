@@ -21,9 +21,6 @@
 .Calendar
 {
     border-collapse:    collapse;
-    /*
-    border-spacing:     0;
-    */
 }
 
 .Calendar span+span
@@ -33,13 +30,13 @@
 
 .Calendar tr.weekend
 {
-    background-color:   #ff8080;
+    background-color:   var(--weekendcolor);
 }
 
 .Calendar td
 {
     vertical-align:     top;
-    border:             1px solid black;
+    border:             var(--borderwidth) solid var(--bordercolor);
 }
 
 .Calendar td:first-child
@@ -49,8 +46,8 @@
 
 .Calendar td:nth-child(n+2) > div
 {
-    border-radius:      0.2rem;
-    background-color:   #8080ff;
+    border-radius:      var(--radius);
+    background-color:   var(--color-brightblue);
     padding:            0.2rem 1ch;
     margin-bottom:      0.2rem;
 }
