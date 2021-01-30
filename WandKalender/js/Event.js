@@ -53,7 +53,7 @@ class Event extends iCalParser
     // returns an array with objects of type CalendarEntry
     GetDates()
     {
-        let entries    = new Array();
+        this.entries    = new Array();
         let eventinfos = super.GetEventInformation();
 
         let name   = eventinfos["name"];
@@ -67,7 +67,7 @@ class Event extends iCalParser
             entry = new CalendarEntry(name, new Date(begin));
         else
             entry = new CalendarEntry(name, new Date(begin), new Date(end));
-        entries.push(entry);
+        this.entries.push(entry);
 
         // Create further entries if the event repeats
         if(eventinfos.hasOwnProperty("repeats"))
@@ -75,7 +75,11 @@ class Event extends iCalParser
             // FREQ=DAILY;COUNT=5;INTERVAL=2
             let rules     = eventinfos["repeats"];
             let count     = parseInt(rules["COUNT"]);
-            let interval  = parseInt(rules["INTERVAL"]);
+            let interval;
+            if(rules["INTERVAL"] != undefined)
+                interval = parseInt(rules["INTERVAL"]);
+            else
+                interval = 1;
             let frequency = rules["FREQ"];
             let date      = begin;
 
@@ -98,12 +102,12 @@ class Event extends iCalParser
                     entry = new CalendarEntry(name, new Date(date), new Date(end));
                 }
 
-                entries.push(entry);
+                this.entries.push(entry);
             }
         }
 
-        window.console && console.log(entries);
-        return entries;
+        //window.console && console.log(entries);
+        return this.entries;
     }
 }
 

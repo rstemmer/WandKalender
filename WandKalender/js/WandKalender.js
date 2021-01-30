@@ -43,11 +43,9 @@ function Initialize()
         {
             onLogin(servername, webdavinterface, username, password);
         });
-    let calendar = new MonthCalendar(new Array());
 
     let screen = document.getElementById("Screen");
     screen.appendChild(login.GetHTMLElement());
-    screen.appendChild(calendar.GetHTMLElement());
 }
 
 
@@ -55,11 +53,6 @@ function Initialize()
 function onLogin(servername, webdavinterface, username, password)
 {
     window.WandKalender.manager = new CalendarManager(servername, webdavinterface, username, password);
-    /*
-    window.WandKalender.caldav = new CalDAV(servername, webdavinterface, username, password);
-    window.WandKalender.caldav.PropFind(["d:displayname"]);
-    window.WandKalender.caldav.Report(["d:getetag", "c:calendar-data"]);
-    */
 }
 
 

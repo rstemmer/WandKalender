@@ -125,7 +125,7 @@ class iCalParser
     //  · repeats as String (iCal RRULE)
     GetEventInformation()
     {
-        window.console && console.log(this.icalevent);
+        //window.console && console.log(this.icalevent);
         let eventinfo = new Object();
 
         for(let key in this.icalevent)

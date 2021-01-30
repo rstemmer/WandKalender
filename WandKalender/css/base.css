@@ -45,12 +45,11 @@ body > #Screen
     flex-direction:     column;
     height:             100vh;
     width:              100vw;
+    overflow:           scroll;
     /*
-    height:         100%;
-    width:          100%;
-    */
     overflow:           hidden;
     scrollbar-width:    none;
+    */
 }
 
 

@@ -39,7 +39,7 @@ class CalDAV
 
 
     // Get all properties (Array of strings): new Array("d:displayname"); for <d:displayname/>
-    PropFind(properties, onresponse)
+    PropFind(properties, onresponse, oncomplete)
     {
         let header = new Object();
         header["Content-Type"] = "application/xml; charset=utf-8";
@@ -52,19 +52,21 @@ class CalDAV
         {
             body += `<${property} />\n`;
         }
-        body += `<d:getetag />\n`; // not working
+        //body += `<d:allprop />\n`; // not working
+        body += `<d:owner-displayname />\n`;
+        //body += `<d:getetag />\n`; // not working
         //body += `<d:acl />\n`;
         //body += `<cs:getctag />\n`;
         body += `</d:prop>\n`;
         body += `</d:propfind>\n`;
 
         let url = `${this.servername}${this.webdavinterface}`;
-        this.Request(url, "PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext, onresponse);});
+        this.Request(url, "PROPFIND", header, body, (responsetext)=>{this.onPropFindResponse(responsetext, onresponse, oncomplete);});
     }
 
 
 
-    onPropFindResponse(responsetext, onresponse)
+    onPropFindResponse(responsetext, onresponse, oncomplete)
     {
         let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
 
@@ -89,11 +91,14 @@ class CalDAV
 
             onresponse(calendar);
         }
+
+        oncomplete();
+        return;
     }
 
 
 
-    Report(calurl, properties, onresponse)
+    Report(calurl, properties, onresponse, oncomplete)
     {
         let header = new Object();
         header["Content-Type"] = "application/xml; charset=utf-8";
@@ -115,12 +120,12 @@ class CalDAV
         body += `</c:calendar-query>\n`;
 
         let url = location.origin + calurl;
-        this.Request(url, "REPORT", header, body, (responsetext)=>{this.onReportResponse(responsetext, onresponse);});
+        this.Request(url, "REPORT", header, body, (responsetext)=>{this.onReportResponse(responsetext, onresponse, oncomplete);});
     }
 
 
 
-    onReportResponse(responsetext, onresponse)
+    onReportResponse(responsetext, onresponse, oncomplete)
     {
         let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
         let responses = xml.getElementsByTagName("d:response");
@@ -144,6 +149,8 @@ class CalDAV
 
             onresponse(calevent);
         }
+
+        oncomplete();
     }
 
 
