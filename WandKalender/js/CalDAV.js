@@ -98,12 +98,28 @@ class CalDAV
 
 
 
-    Report(calurl, properties, onresponse, oncomplete)
+    ToCalDAVDate(jsdate)
+    {
+        let Y  = jsdate.getFullYear();
+        let M  = jsdate.getMonth();
+        let D  = jsdate.getDate();
+        let YYYY = Y;
+        let MM   = ("00" + (M+1)).substr(-2);
+        let DD   = ("00" +  D   ).substr(-2);
+        return YYYY+MM+DD+"T000000";
+    }
+
+
+
+    Report(calurl, from, to, properties, onresponse, oncomplete)
     {
         let header = new Object();
         header["Content-Type"] = "application/xml; charset=utf-8";
         header["Depth"]        = "1";
         header["Prefer"]       = "return-minimal";
+
+        from  = this.ToCalDAVDate(from);
+        to    = this.ToCalDAVDate(to);
 
         let body = "";
         body += `<?xml version="1.0"?>\n`;
@@ -115,7 +131,11 @@ class CalDAV
         }
         body += `</d:prop>\n`;
         body += `<c:filter>\n`;
-        body +=     `<c:comp-filter name="VCALENDAR" />\n`;
+        body +=     `<c:comp-filter name="VCALENDAR">\n`;
+        body +=         `<c:comp-filter name="VEVENT">\n`;
+        body +=             `<c:time-range  start="${from}" end="${to}"/>\n`;
+        body +=         `</c:comp-filter>\n`;
+        body +=     `</c:comp-filter>\n`;
         body += `</c:filter>\n`;
         body += `</c:calendar-query>\n`;
 

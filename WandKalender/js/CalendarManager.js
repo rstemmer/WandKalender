@@ -34,7 +34,11 @@ class CalendarData
         window.console && console.log(`update`);
         this.valid = false;
         this.events = new Array();
-        this.caldav.Report(this.calurl, ["c:calendar-data"], (ical)=>{this.onCalendarUpdate(ical);}, ()=>{this.onUpdateComplete();});
+        let from = new Date();
+        from.setDate(1);
+        let to   = new Date(from);
+        to.setMonth(to.getMonth() + 1);
+        this.caldav.Report(this.calurl, from, to, ["c:calendar-data"], (ical)=>{this.onCalendarUpdate(ical);}, ()=>{this.onUpdateComplete();});
     }
 
     onCalendarUpdate(caleventdata)
