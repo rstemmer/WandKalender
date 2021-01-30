@@ -250,7 +250,11 @@ class MonthCalendar extends Table
 
         for(let user of this.users)
         {
+            // Check if this users calendar shall be displayed
             let username  = user;
+            if(!usersdata.hasOwnProperty(user))
+                continue;
+
             let calendars = usersdata[user].calendars;
             window.console && console.log(username);
             for(let calendar of calendars)
