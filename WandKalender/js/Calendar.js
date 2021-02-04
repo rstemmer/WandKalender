@@ -64,6 +64,14 @@ class Table extends Element
 
 
 
+    ClearTable()
+    {
+        this.RemoveChilds();
+        this.rows = new Array();
+    }
+
+
+
     AddRow(tablerow)
     {
         this.rows.push(tablerow);
@@ -235,20 +243,7 @@ class MonthCalendar extends Table
         window.console && console.log(`first: ${this.firstDay}`);
         window.console && console.log(`last:  ${this.lastDay}`);
 
-        let headline = new CalendarHeadline();
-        this.AddRow(headline);
-
-        let date    = new Date(this.firstDay);
-        this.dayrow = new Object();
-        for(let daynum = 1; daynum <= this.lastDay.getDate(); daynum++)
-        {
-            let row = new CalendarRow(date, this.users.length);
-            //window.console && console.log(row);
-            this.AddRow(row);
-
-            this.dayrow[daynum] = row;
-            date.setDate(date.getDate() + 1);
-        }
+        this.ClearCalendar();
     }
 
 
@@ -299,6 +294,21 @@ class MonthCalendar extends Table
 
     ClearCalendar()
     {
+        this.ClearTable();
+        let headline = new CalendarHeadline();
+        this.AddRow(headline);
+
+        let date    = new Date(this.firstDay);
+        this.dayrow = new Object();
+        for(let daynum = 1; daynum <= this.lastDay.getDate(); daynum++)
+        {
+            let row = new CalendarRow(date, this.users.length);
+            //window.console && console.log(row);
+            this.AddRow(row);
+
+            this.dayrow[daynum] = row;
+            date.setDate(date.getDate() + 1);
+        }
     }
 
 

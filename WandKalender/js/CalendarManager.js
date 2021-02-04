@@ -75,6 +75,7 @@ class CalendarManager
         this.calui  = new MonthCalendar(this.userslist, this.holidaycalendars);
 
         this.nextstate  = "Idle";
+        this.tickcount  = 0;
         this.updatetick = setTimeout(()=>{this.Tick();}, 1000/*ms*/);
 
         let screen = document.getElementById("Screen");
@@ -86,6 +87,9 @@ class CalendarManager
 
     Tick()
     {
+        const UPDATEINTERVAL = window.WandKalender.config.updateinterval;
+        const RELOADINTERVAL = window.WandKalender.config.reloadinterval;
+        this.tickcount++;
         this.state = this.nextstate;
         switch(this.state)
         {
@@ -101,6 +105,16 @@ class CalendarManager
                 this.calui.Update(this.usersdata);
                 this.UpdateState("Idle");
                 break;
+
+            case "Idle":
+                if(UPDATEINTERVAL > 0 && (this.tickcount % UPDATEINTERVAL) == 0)
+                {
+                    this.UpdateState("LoadingCalendars");
+                }
+                if(RELOADINTERVAL > 0 && (this.tickcount % RELOADINTERVAL) == 0)
+                {
+                    window.location.reload(true);
+                }
         }
 
         // Set next tick

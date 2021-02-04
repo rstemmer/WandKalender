@@ -19,3 +19,7 @@ window.WandKalender.config.holidaycalendars =
         "Holidays Calendar 2"
     ];
 
+// in seconds, 0: no update/reload
+window.WandKalender.config.updateinterval = 60 /*s*/;
+window.WandKalender.config.reloadinterval = 60*60 /*s*/;
+
