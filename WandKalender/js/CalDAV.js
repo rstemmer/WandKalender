@@ -186,6 +186,7 @@ class CalDAV
 
         let xmlrequest = new XMLHttpRequest();
         xmlrequest.open(method, url, true /*Async*/);
+        xmlrequest.timeout = 5000 /*ms*/;
 
         for(let entry in header)
         {
