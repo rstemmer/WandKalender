@@ -26,8 +26,7 @@
 
 body
 {
-    height:             100vh;
-    margin:             0 auto;
+    margin:             0;
     overflow:           hidden;
     cursor:             default;
 }
@@ -35,16 +34,17 @@ body
 
 body > #Screen
 {
-    box-sizing:         border-box;
-    display:            flex;
-    flex-direction:     column;
-    height:             100vh;
-    width:              100vw;
-    overflow:           scroll;
     /*
-    overflow:           hidden;
-    scrollbar-width:    none;
-    */
+     * Source: https://stackoverflow.com/questions/35856013/rotate-all-html-element-whole-page-90-degree-with-css
+     */
+    transform:          rotate(90deg);
+    transform-origin:   bottom left;
+    position:           absolute;
+    top:                -100vw;
+    left:               0;
+    height:             100vw;
+    width:              100vh;
+    overflow:           auto;
 }
 
 
