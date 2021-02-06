@@ -26,6 +26,15 @@ class Login extends Element
         this.onlogin   = onlogin;
         this.username        = window.localStorage.getItem("username") || "";
         this.password        = window.localStorage.getItem("password") || "";
+        // If there is a password and user name, directly log in and do not ask for.
+        if(this.username.length != 0 && this.password.length != 0)
+        {
+            if(typeof this.onlogin === "function")
+            {
+                this.onlogin(this.username, this.password);
+                return;
+            }
+        }
         this.usernameinput   = new Input("text", null, this.username);
         this.passwordinput   = new Input("text", null, this.password);
         this.loginbutton     = new Element("button");
