@@ -260,21 +260,24 @@ class MonthCalendar extends Table
                 continue;
 
             let calendars = usersdata[user].calendars;
-            window.console && console.log(username);
+            //window.console && console.log(username);
             for(let calendar of calendars)
             {
                 // Data not yet ready? Skip this calendar for now.
                 if(calendar.valid !== true)
+                {
+                    window.console?.log(`Calendar ${calendar.name} not yet ready to render!`);
                     continue;
+                }
 
-                window.console && console.log(calendar);
+                //window.console && console.log(calendar);
 
                 // Check if this is a holiday entry
                 let isholiday = false;
-                window.console && console.log(this.holidaycalendars.indexOf(calendar.name));
+                //window.console && console.log(this.holidaycalendars.indexOf(calendar.name));
                 if(this.holidaycalendars.indexOf(calendar.name) >= 0)
                     isholiday = true;
-                window.console && console.log(`Is Holiday: ${isholiday}`);
+                //window.console && console.log(`Is Holiday: ${isholiday}`);
 
                 //window.console && console.log(calendar.events);
                 for(let calevent of calendar.events) // keep in mind that an event can be repetitive
