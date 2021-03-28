@@ -28,6 +28,8 @@ class iCalParser
 
     GetSection(sectionname)
     {
+        // Keep in mind sections can occur multiple times
+        // Follow-up sections are additions or updates
         let section   = new Array();
         let insection = false;
 
@@ -41,7 +43,10 @@ class iCalParser
             else if(insection == true && line.startsWith("END:"))
             {
                 if(line.split(":")[1] == sectionname)
+                {
                     insection = false;
+                    break; // FIXME / TODO: Allow updates and addition information to a section (like moving one date inside a series of dates
+                }
             }
             else if(insection == true)
             {
