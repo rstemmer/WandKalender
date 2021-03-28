@@ -186,7 +186,7 @@ class CalDAV
 
         let xmlrequest = new XMLHttpRequest();
         xmlrequest.open(method, url, true /*Async*/);
-        xmlrequest.timeout = 5000 /*ms*/;
+        xmlrequest.timeout = 10000 /*ms*/;
 
         for(let entry in header)
         {
@@ -196,9 +196,12 @@ class CalDAV
 
         xmlrequest.send(body);
         xmlrequest.onload    = ()=>{onresponse(xmlrequest.responseText);};
-        xmlrequest.onerror   = ()=>{window.console && console.log(xmlrequest);};
-        xmlrequest.ontimeout = ()=>{window.console && console.log(xmlrequest);};
-        xmlrequest.onabort   = ()=>{window.console && console.log(xmlrequest);};
+        xmlrequest.onerror   = ()=>{window.console?.error("ERROR: onerror  ");};
+        xmlrequest.ontimeout = ()=>{window.console?.error("ERROR: ontimeout");};
+        xmlrequest.onabort   = ()=>{window.console?.error("ERROR: onabort  ");};
+        //xmlrequest.onerror   = ()=>{window.console && console.log(xmlrequest);};
+        //xmlrequest.ontimeout = ()=>{window.console && console.log(xmlrequest);};
+        //xmlrequest.onabort   = ()=>{window.console && console.log(xmlrequest);};
         return;
     }
 }
