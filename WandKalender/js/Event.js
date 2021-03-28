@@ -64,10 +64,21 @@ class Event extends iCalParser
         // Create first entry
         let entry;
         if(allday)
-            entry = new CalendarEntry(name, new Date(begin));
+        {
+            // all-day events for multiple days have a begin-end range, not a FREQ rule and not a repeats property
+            let date = begin;
+            while(date < end)
+            {
+                entry = new CalendarEntry(name, new Date(begin));
+                date.setDate(date.getDate() + 1);
+                this.entries.push(entry);
+            }
+        }
         else
+        {
             entry = new CalendarEntry(name, new Date(begin), new Date(end));
-        this.entries.push(entry);
+            this.entries.push(entry);
+        }
 
         // Create further entries if the event repeats
         if(eventinfos.hasOwnProperty("repeats"))
