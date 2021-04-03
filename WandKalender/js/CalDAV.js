@@ -70,6 +70,13 @@ class CalDAV
 
     onPropFindResponse(responsetext, onresponse, oncomplete)
     {
+        // On error, finish everything.
+        if(responsetext == null)
+        {
+            oncomplete();
+            return;
+        }
+
         let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
 
         let responses = xml.getElementsByTagName("d:response");
@@ -149,6 +156,13 @@ class CalDAV
 
     onReportResponse(responsetext, onresponse, oncomplete)
     {
+        // On error, finish everything.
+        if(responsetext == null)
+        {
+            oncomplete();
+            return;
+        }
+
         let xml = this.xmlparser.parseFromString(responsetext, "application/xml");
         let responses = xml.getElementsByTagName("d:response");
         for(let response of responses)
@@ -196,9 +210,9 @@ class CalDAV
 
         xmlrequest.send(body);
         xmlrequest.onload    = ()=>{onresponse(xmlrequest.responseText);};
-        xmlrequest.onerror   = ()=>{window.console?.error("ERROR: onerror  ");};
-        xmlrequest.ontimeout = ()=>{window.console?.error("ERROR: ontimeout");};
-        xmlrequest.onabort   = ()=>{window.console?.error("ERROR: onabort  ");};
+        xmlrequest.onerror   = ()=>{window.console?.error("ERROR: onerror  "); onresponse(null);};
+        xmlrequest.ontimeout = ()=>{window.console?.error("ERROR: ontimeout"); onresponse(null);};
+        xmlrequest.onabort   = ()=>{window.console?.error("ERROR: onabort  "); onresponse(null);};
         //xmlrequest.onerror   = ()=>{window.console && console.log(xmlrequest);};
         //xmlrequest.ontimeout = ()=>{window.console && console.log(xmlrequest);};
         //xmlrequest.onabort   = ()=>{window.console && console.log(xmlrequest);};
