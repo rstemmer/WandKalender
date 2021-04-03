@@ -31,13 +31,16 @@ class CalendarData
 
     UpdateCalendar()
     {
-        window.console && console.log(`update`);
-        this.valid = false;
+        window.console && console.log(`Starting synchronizing ${this.name} with the server…`);
+        this.valid  = false;
         this.events = new Array();
-        let from = new Date();
+
+        let from    = new Date();
         from.setDate(1);
-        let to   = new Date(from);
+
+        let to      = new Date(from);
         to.setMonth(to.getMonth() + 1);
+
         this.caldav.Report(this.calurl, from, to, ["c:calendar-data"], (ical)=>{this.onCalendarUpdate(ical);}, ()=>{this.onUpdateComplete();});
     }
 
@@ -50,8 +53,8 @@ class CalendarData
 
     onUpdateComplete()
     {
-        window.console && console.log(`complete`);
         this.valid = true;
+        window.console && console.log(`Synchronization of ${this.name} complete.`);
     }
 }
 
@@ -100,8 +103,11 @@ class CalendarManager
             case "LoadingCalendars":
                 this.FindAllCalendars();
                 break;
+            case "WaitingForLoadingComplete":
+                break;
 
             case "RenderingCalendars":
+                // window?.console?.log(this.usersdata); // DEBUG: List all found calendars
                 this.calui.Update(this.usersdata);
                 this.UpdateState("Idle");
                 break;
@@ -125,6 +131,7 @@ class CalendarManager
 
     UpdateState(nextstate)
     {
+        window.console && console.log(`Transitioning from state ${this.state} to ${nextstate}`);
         this.nextstate = nextstate;
     }
 
@@ -132,6 +139,7 @@ class CalendarManager
 
     FindAllCalendars()
     {
+        this.UpdateState("WaitingForLoadingComplete");
         //this.calendars = new Array()
         this.usersdata = new Object();
         this.caldav.PropFind(["d:displayname", "d:owner"], (calprops)=>{this.onCalendarFound(calprops);}, ()=>{this.onAllCalendarsFound();});
@@ -149,7 +157,7 @@ class CalendarManager
         let calowner   = calprops["d:owner"];
         let ownerparts = calowner.split("/");
         let username   = ownerparts[ownerparts.length - 2]
-        //window.console && console.log(`${username} - ${calname}: ${calurl}`);
+        window.console && console.log(`${username} - ${calname}: ${calurl}`);
 
         // Check if calendars of this user shall be visible
         if(!username in this.userslist)
@@ -173,7 +181,13 @@ class CalendarManager
 
     onAllCalendarsFound()
     {
-        this.UpdateState("RenderingCalendars");
+        // IMPORTANT! There can be a race condition!
+        // Just because all calendars have been found,
+        // it does not mean that they are also downloaded yet!
+        // So give it some time to finish loading.
+        const WAITFORLOADING = 10*1000; /*ms*/
+        setTimeout(()=>{this.UpdateState("RenderingCalendars");}, WAITFORLOADING);
+        //this.UpdateState("RenderingCalendars");
     }
 
 
