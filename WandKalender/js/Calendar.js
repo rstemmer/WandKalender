@@ -274,10 +274,13 @@ class MonthCalendar extends Table
 
                 // Check if this is a holiday entry
                 let isholiday = false;
-                //window.console && console.log(this.holidaycalendars.indexOf(calendar.name));
-                if(this.holidaycalendars.indexOf(calendar.name) >= 0)
-                    isholiday = true;
-                //window.console && console.log(`Is Holiday: ${isholiday}`);
+                for(let holidaycalendar of this.holidaycalendars)
+                {
+                    if(calendar.name.startsWith(holidaycalendar))
+                        isholiday = true;
+                }
+                window?.console?.log(`${calendar.name} in ${this.holidaycalendars}`);
+                window?.console?.log(` => Is Holiday: ${isholiday}`);
 
                 //window.console && console.log(calendar.events);
                 for(let calevent of calendar.events) // keep in mind that an event can be repetitive
