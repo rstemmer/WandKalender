@@ -156,7 +156,7 @@ class CalendarHeadline extends Row
 class CalendarRow extends Row
 {
     // date will not be changed. It is safe to pass a reference
-    constructor(date, numcalendars)
+    constructor(date, numcalendars, istoday=false)
     {
         super(numcalendars + 1);
         //this.monthid = date.getMonth();
@@ -167,6 +167,8 @@ class CalendarRow extends Row
 
         if(this.dayid === 0 || this.dayid === 6)
             this.element.classList.add("weekend");
+        if(istoday === true)
+            this.element.classList.add("today");
 
         this.CreateDayCell();
     }
@@ -308,8 +310,11 @@ class MonthCalendar extends Table
         this.dayrow = new Object();
         for(let daynum = 1; daynum <= this.lastDay.getDate(); daynum++)
         {
-            let row = new CalendarRow(date, this.users.length);
-            //window.console && console.log(row);
+            let istoday = false;
+            if(daynum == this.now.getDate())
+                istoday = true;
+
+            let row = new CalendarRow(date, this.users.length, istoday);
             this.AddRow(row);
 
             this.dayrow[daynum] = row;

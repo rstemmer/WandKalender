@@ -35,6 +35,14 @@ table.Calendar
 {
     background-color:   var(--weekendcolor);
 }
+.Calendar tr.today
+{
+    font-size:          1.5rem;
+}
+.Calendar tr.today td
+{
+    border-bottom:      var(--borderwidth) solid var(--color-brightblue);
+}
 
 .Calendar td
 {
