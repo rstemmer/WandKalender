@@ -40,7 +40,7 @@
     --color-brightyellow:   #FFFFAA;
 
     --radius:               0.3em;
-    --borderwidth:          0.2em;
+    --borderwidth:          0.15em;
     --bordercolor:          var(--color-black);
     --weekendcolor:         var(--color-brightred);
     --weekcolor:            var(--color-lightgray);

@@ -36,7 +36,7 @@ table.Calendar
 .Calendar td .monthname
 {
     text-align:         center;
-    font-size:          1.5rem;
+    font-size:          1.3rem;
 }
 .Calendar tr.weekend
 {
@@ -44,7 +44,7 @@ table.Calendar
 }
 .Calendar tr.today
 {
-    font-size:          1.5rem;
+    font-size:          1.3rem;
 }
 .Calendar tr.today td:nth-child(n+2)
 {
@@ -78,7 +78,7 @@ table.Calendar
 }
 .Calendar td:nth-child(n+2) > div
 {
-    padding:            0.2rem 1ch;
+    padding:            0.1rem 1ch;
     margin:             0.1rem;
 }
 .Calendar tr:nth-child(n+2) td:nth-child(n+2) > div
@@ -94,7 +94,7 @@ table.Calendar
 span.timespan
 {
     display:            inline-block;
-    font-size:          1.2rem;
+    font-size:          1.1rem;
 }
 
 span.eventname
