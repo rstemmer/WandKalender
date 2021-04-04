@@ -36,6 +36,7 @@ table.Calendar
 .Calendar td .monthname
 {
     text-align:         center;
+    font-size:          1.5rem;
 }
 .Calendar tr.weekend
 {
@@ -45,9 +46,13 @@ table.Calendar
 {
     font-size:          1.5rem;
 }
-.Calendar tr.today td
+.Calendar tr.today td:nth-child(n+2)
 {
-    border-bottom:      var(--borderwidth) solid var(--color-brightblue);
+    background-color:   var(--color-brightyellow);
+}
+.Calendar tr.today td:nth-child(n+2) > div
+{
+    border:             var(--borderwidth) solid var(--color-yellow);
 }
 
 .Calendar tr.weekend div.holiday span.eventname
@@ -63,15 +68,23 @@ table.Calendar
 
 .Calendar td:first-child
 {
-    width:              20ch;
+    padding-left:       1ch;
 }
 
+.Calendar tr:first-child
+{
+    padding-top:        0.1rem;
+    background-color:   var(--color-brightyellow);
+}
 .Calendar td:nth-child(n+2) > div
+{
+    padding:            0.2rem 1ch;
+    margin:             0.1rem;
+}
+.Calendar tr:nth-child(n+2) td:nth-child(n+2) > div
 {
     border-radius:      var(--radius);
     background-color:   var(--color-brightblue);
-    padding:            0.2rem 1ch;
-    margin:             0.1rem;
 }
 
 
