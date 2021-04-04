@@ -22,7 +22,7 @@ const DAYS = new Array("Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag"
 
 class CalendarCellEntry extends Element
 {
-    constructor(calendarentry)
+    constructor(calendarentry, isholiday)
     {
         super("div");
 
@@ -31,13 +31,18 @@ class CalendarCellEntry extends Element
         {
             let begin = this.DateToTime(calendarentry.date);
             let end   = this.DateToTime(calendarentry.end);
-            let prefix = new Element("span");
+            let prefix = new Element("span", ["timespan"]);
             prefix.SetInnerText(`${begin} - ${end}`);
             this.AppendChild(prefix);
         }
 
+        if(isholiday === true)
+        {
+            this.element.classList.add("holiday");
+        }
+
         let name        = calendarentry.name;
-        let nameelement = new Element("span");
+        let nameelement = new Element("span", ["eventname"]);
         nameelement.SetInnerText(name);
         this.AppendChild(nameelement);
     }
@@ -198,12 +203,12 @@ class CalendarRow extends Row
 
 
 
-    UpdateCell(column, entry)
+    UpdateCell(column, entry, isholiday)
     {
-        let cell = new CalendarCellEntry(entry);
+        let cell = new CalendarCellEntry(entry, isholiday);
         let allday = entry.allday;
         if(allday && column != 0)   // Column 0 is the day. So entry is a holiday and shall be placed below the day-info
-            this.AddContentOnTop(column, cell);
+            this.AddContentOnTop(column, cell, isholiday);
         else
             this.AddContent(column, cell);
     }
@@ -339,7 +344,7 @@ class MonthCalendar extends Table
         {
             column = this.users.indexOf(user) + 1;
         }
-        this.dayrow[daynum].UpdateCell(column, entry);
+        this.dayrow[daynum].UpdateCell(column, entry, isholiday);
     }
 }
 

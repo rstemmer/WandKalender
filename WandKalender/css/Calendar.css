@@ -19,6 +19,8 @@
 
 table.Calendar
 {
+    table-layout:       fixed;
+    width:              100%;
 }
 
 .Calendar
@@ -44,6 +46,11 @@ table.Calendar
     border-bottom:      var(--borderwidth) solid var(--color-brightblue);
 }
 
+.Calendar tr.weekend div.holiday span.eventname
+{
+    font-size:          0.8rem;
+}
+
 .Calendar td
 {
     vertical-align:     top;
@@ -60,7 +67,22 @@ table.Calendar
     border-radius:      var(--radius);
     background-color:   var(--color-brightblue);
     padding:            0.2rem 1ch;
-    margin-bottom:      0.2rem;
+    margin:             0.1rem;
+}
+
+
+
+/* EVENTS */
+
+span.timespan
+{
+    display:            inline-block;
+    font-size:          1.2rem;
+}
+
+span.eventname
+{
+    font-size:          1.0rem;
 }
 
 /* vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 

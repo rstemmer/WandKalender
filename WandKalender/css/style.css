@@ -34,9 +34,9 @@
     --color-gold:           #A8A623;
     --color-gray:           #323234;
     --color-lightgray:      #C2C2C4;
-    --color-brightred:      #CF4545;
+    --color-brightred:      #FFAAAA;
     --color-brightgreen:    #2C832C;
-    --color-brightblue:     #4545CF;
+    --color-brightblue:     #AAAAFF;
     --color-brightyellow:   #ADAD3F;
 
     --radius:               0.3em;
@@ -55,7 +55,7 @@ body
     background-color:   var(--color-white);
 
     font-family:        SourceSansPro, DejaVuSans;
-    font-size:          16pt;
+    font-size:          12pt;
     font-weight:        bold;
     letter-spacing:     0.03rem;
 
