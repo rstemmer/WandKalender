@@ -33,6 +33,10 @@ table.Calendar
     margin-left:        1.5ch;
 }
 
+.Calendar td .monthname
+{
+    text-align:         center;
+}
 .Calendar tr.weekend
 {
     background-color:   var(--weekendcolor);

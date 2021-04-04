@@ -144,6 +144,14 @@ class CalendarHeadline extends Row
         let users = window.WandKalender.config.users;
         super(Object.keys(users).length + 1);
 
+        // Add Month Name
+        let monthcell = new Element("div", ["monthname"]);
+        let date      = new Date();
+        let month     = date.toLocaleString("default", { month: "long" });
+        monthcell.SetInnerText(month);
+        this.SetContent(0, monthcell);
+
+        // Add User names
         let index = 1;
         for(let [user, username] of Object.entries(users))
         {
