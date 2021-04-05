@@ -109,7 +109,7 @@ class iCalParser
     {
         let rrule = new Object();
 
-            // FREQ=DAILY;COUNT=5;INTERVAL=2
+        // FREQ=DAILY;COUNT=5;INTERVAL=2
         let props = rrulestring.split(";");
         for(let prop of props)
         {
