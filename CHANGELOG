@@ -1,2 +1,10 @@
+0.1.0 - 06.04.2021 - First Prototype
+ - Loads calendar data from Nextcloud server
+ - Displays monthly calendar
+ - Shows calendar data for each person in individual column
+ - Highlights weekends and holidays
+ - Updates calendar data regularly
+ - Updates itself (JavaScript application) regularly
+
 0.0.1 - 18.01.2021 - Initial Commit
 
