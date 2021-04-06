@@ -119,7 +119,7 @@ class CalendarManager
                 }
                 if(RELOADINTERVAL > 0 && (this.tickcount % RELOADINTERVAL) == 0)
                 {
-                    window.location.reload(true);
+                    this.ReloadPage();
                 }
         }
 
@@ -134,7 +134,25 @@ class CalendarManager
         window.console && console.log(`Transitioning from state ${this.state} to ${nextstate}`);
         this.nextstate = nextstate;
     }
+    
 
+    ReloadPage()
+    {
+        // Only reload if server is available!
+        let checkurl   = window.location.origin + "/?rand=" + Math.random(); // random: avoid checking the cache!
+        let xmlrequest = new XMLHttpRequest();
+        
+        xmlrequest.open("HEAD", checkurl, true /*Async*/);
+        xmlrequest.timeout = 2000 /*ms*/;
+        xmlrequest.onload    = ()=>{window.location.reload(true);};
+        xmlrequest.onerror   = ()=>{window.console?.warn("WARNING: onerror   - server not online");};
+        xmlrequest.ontimeout = ()=>{window.console?.warn("WARNING: ontimeout - server not online");};
+        xmlrequest.onabort   = ()=>{window.console?.warn("WARNING: onabort   - server not online");};
+
+        window.console?.log(`Checking if ${checkurl} is accessible`);
+        xmlrequest.send();
+        return;
+    }
 
 
     FindAllCalendars()
