@@ -44,7 +44,6 @@ table.Calendar
 }
 .Calendar tr.today
 {
-    font-size:          1.3rem;
 }
 .Calendar tr.today td:nth-child(n+2)
 {
@@ -94,12 +93,10 @@ table.Calendar
 span.timespan
 {
     display:            inline-block;
-    font-size:          1.1rem;
 }
 
 span.eventname
 {
-    font-size:          1.0rem;
 }
 
 /* vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 
