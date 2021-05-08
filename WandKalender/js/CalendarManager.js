@@ -145,9 +145,9 @@ class CalendarManager
         xmlrequest.open("HEAD", checkurl, true /*Async*/);
         xmlrequest.timeout = 2000 /*ms*/;
         xmlrequest.onload    = ()=>{window.location.reload(true);};
-        xmlrequest.onerror   = ()=>{window.console?.warn("WARNING: onerror   - server not online");};
-        xmlrequest.ontimeout = ()=>{window.console?.warn("WARNING: ontimeout - server not online");};
-        xmlrequest.onabort   = ()=>{window.console?.warn("WARNING: onabort   - server not online");};
+        xmlrequest.onerror   = ()=>{setTimeout(()=>{this.ReloadPage();}, 1000*60*5/*5min*/);};
+        xmlrequest.ontimeout = ()=>{setTimeout(()=>{this.ReloadPage();}, 1000*60*5/*5min*/);};
+        xmlrequest.onabort   = ()=>{setTimeout(()=>{this.ReloadPage();}, 1000*60*5/*5min*/);};
 
         window.console?.log(`Checking if ${checkurl} is accessible`);
         xmlrequest.send();
