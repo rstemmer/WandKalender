@@ -1,0 +1,60 @@
+/*
+ * WandKalender,  a caldav front end for a simple event overview
+ * Copyright (C) 2021-2021  Ralf Stemmer <ralf.stemmer@gmx.net>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Source: ralf.stemmer@gmx.net https://github.com/rstemmer/musicdb/blob/master/webui/css/base.css
+ */
+
+/******************/
+/* Base settings  */
+/******************/
+
+body
+{
+    margin:             0;
+    overflow:           hidden;
+    cursor:             default;
+}
+
+
+body > #Screen
+{
+    /*
+     * Source: https://stackoverflow.com/questions/35856013/rotate-all-html-element-whole-page-90-degree-with-css
+     */
+/*
+    transform:          rotate(90deg);
+    transform-origin:   bottom left;
+    position:           absolute;
+    top:                -100vw;
+    left:               0;
+    height:             100vw;
+    width:              100vh;
+    */
+    overflow:           auto;
+}
+
+
+[draggable] 
+{
+    cursor:         move;
+}
+
+/* vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 
+ */
+

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-SOURCEDIR=./WandKalender
-DESTINATION=/srv/WandKalender
-
 set -e
 
 if ! type rsync 2> /dev/null > /dev/null ; then
@@ -10,6 +7,8 @@ if ! type rsync 2> /dev/null > /dev/null ; then
     exit 1
 fi
 
+SOURCEDIR=./WandKalender
+DESTINATION=/srv/WandKalender
 rsync -uav  \
     --exclude '*.swp' \
     --exclude '*.swo' \
@@ -17,6 +16,23 @@ rsync -uav  \
     --exclude 'config.js' \
     --delete \
     $SOURCEDIR/ $DESTINATION/. > /dev/null
+
+SOURCEDIR=./WandKalender2
+DESTINATION=/srv/WandKalender2
+WSCONFIG=$DESTINATION/config.js
+if [ -f "$WSCONFIG" ] ; then
+    cp "$WSCONFIG" "/tmp/wkswebuicfg.bak"
+fi
+rsync -uav  \
+    --exclude '*.swp' \
+    --exclude '*.swo' \
+    --exclude '*~' \
+    --exclude 'config.js' \
+    --delete \
+    $SOURCEDIR/ $DESTINATION/. > /dev/null
+if [ -f "/tmp/wkswebuicfg.bak" ] ; then
+    mv "/tmp/wkswebuicfg.bak" "$WSCONFIG"
+fi
 
 echo -e "\e[1;32mdone\e[0m"
 
