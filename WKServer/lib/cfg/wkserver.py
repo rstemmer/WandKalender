@@ -65,6 +65,8 @@ class META:
     pass
 class WEBSOCKET:
     pass
+class CALDAV:
+    pass
 class TLS:
     pass
 class LOG:
@@ -96,6 +98,10 @@ class WKServerConfig(Config):
         if not self.websocket.apikey:
             logging.warning("Value of [websocket]->apikey is not set!")
 
+        self.caldav = CALDAV()
+        self.caldav.username     = self.Get(str, "caldav","username",          "user")
+        self.caldav.password     = self.Get(str, "caldav","password",          "password")
+        self.caldav.url          = self.Get(str, "caldav","url",               "https://localhost:443")
 
         # [TLS]
         self.tls = TLS()
