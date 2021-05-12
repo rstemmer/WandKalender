@@ -16,11 +16,92 @@
 """
 """
 
-from datetime import datetime
-from lib.cfg.wkserver   import WKServerConfig
+import time
 import logging
+import threading
+from datetime import date, datetime
+from lib.cfg.wkserver   import WKServerConfig
 import caldav
 from icalendar import Calendar, Event
+
+Thread          = None
+Callbacks       = []
+RunThread       = False
+
+def StartCalendarClientThread(config):
+    global Thread
+    global RunThread
+    global Callbacks
+
+    if Thread != None:
+        logging.warning("Calendar Client Thread already running")
+        return False
+
+    Callbacks = []
+    RunThread = True
+    logging.debug("Starting Calendar Client Thread")
+    Thread    = threading.Thread(target=CalendarClientThread, args=[config])
+    Thread.start()
+    return True
+
+
+def CalendarClientThread(config):
+    global RunThread
+    global Callbacks
+
+    calendarclient = CalendarClient(config)
+    calendarclient.Connect()
+
+    while RunThread:
+        calendarclient.GetEvents(datetime(2021, 5, 1), datetime(2021, 5, 8))
+
+        # for each calendar
+        for name, calendar in calendarclient.calendars.items():
+
+            # Wait a minute
+            for t in range(60):
+                if not RunThread:
+                    return
+                else:
+                    time.sleep(1)
+
+            # Send event of one calendar
+            logging.debug("Update %s", name)
+            events = calendar["events"]
+            for callback in Callbacks:
+                try:
+                    callback(name, events)
+                except Exception as e:
+                    logging.exception("A Stream Thread event callback function crashed!")
+    return
+
+
+
+
+class CalendarClientManager(object):
+    def __init__(self):
+        pass
+
+    def StopThread(self):
+        global RunThread
+        global Thread
+        logging.debug("Stopping Calendar Manager…")
+        RunThread = False
+        Thread.join()
+
+    def RegisterCallback(self, function):
+        global Callbacks
+        Callbacks.append(function)
+
+    def RemoveCallback(self, function):
+        global Callbacks
+
+        # Not registered? Then do nothing.
+        if not function in Callbacks:
+            logging.warning("A Thread callback function should be removed, but did not exist in the list of callback functions!")
+            return
+        Callbacks.remove(function)
+
 
 
 class CalendarClient(object):
@@ -87,6 +168,15 @@ class CalendarClient(object):
             event = {}
             event["start"]   = component.decoded("DTSTART")
             event["end"]     = component.decoded("DTEND")
+            if type(event["start"]) == date:
+                event["start"] = datetime.combine(event["start"], datetime.min.time()).timestamp()
+                event["end"]   = datetime.combine(event["end"],   datetime.min.time()).timestamp()
+                event["allday"]= True
+            else:
+                event["start"] = event["start"].timestamp()
+                event["end"]   = event["end"].timestamp()
+                event["allday"]= False
+
             event["summary"] = component.decoded("SUMMARY").decode("utf-8")
         return event
 

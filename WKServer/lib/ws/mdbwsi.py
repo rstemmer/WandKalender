@@ -21,6 +21,7 @@ Available Methods
 
 """
 from lib.cfg.wkserver   import WKServerConfig
+from classes.calendarclient import CalendarClientManager
 from threading          import Thread
 import os
 import logging
@@ -35,6 +36,7 @@ class WKServerWebSocketInterface(object):
         # So all possible exceptions must be caught here, so that they can be made visible.
         try:
             pass
+            self.calendarmanager = CalendarClientManager()
         except Exception as e:
             logging.exception(e)
             raise e
@@ -42,12 +44,29 @@ class WKServerWebSocketInterface(object):
 
 
     def onWSConnect(self):
+        self.calendarmanager.RegisterCallback(self.onCalendarUpdate)
         return None
 
         
 
     def onWSDisconnect(self, wasClean, code, reason):
+        self.calendarmanager.RemoveCallback(self.onCalendarUpdate)
         return None
+
+
+
+    def onCalendarUpdate(self, name, events):
+        data = {}
+        data["name"]   = name
+        data["events"] = events
+        response    = {}
+        response["method"]      = "notification"
+        response["fncname"]     = "WKServer:CalendarUpdate"
+        response["fncsig"]      = "onCalendarUpdate"
+        response["arguments"]   = data
+        response["pass"]        = None
+        success = self.SendPacket(response)
+        return success
 
 
 

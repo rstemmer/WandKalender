@@ -58,6 +58,7 @@ import time
 import signal
 import logging
 from lib.ws.server      import WKServerWebSocketServer
+from classes.calendarclient import CalendarClientManager, StartCalendarClientThread
 
 
 class WKServer(object):
@@ -135,6 +136,7 @@ class WKServer(object):
             logging.critical("Starting websocket server failed!")
             return False
 
+        StartCalendarClientThread(self.config)
         return True
 
 
@@ -152,6 +154,9 @@ class WKServer(object):
         if self.tlswsserver:
             logging.debug("Stopping TLS WS Server…")
             self.tlswsserver.Stop()
+
+        calendar = CalendarClientManager()
+        calendar.StopThread()
 
         # dead end
         if self.shutdown:
