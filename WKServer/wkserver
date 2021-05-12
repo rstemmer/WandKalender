@@ -26,6 +26,8 @@ from lib.filesystem     import Filesystem
 from lib.cfg.wkserver   import WKServerConfig
 from lib.logging        import MusicDBLogger
 from classes.server     import WKServer
+import urllib3
+urllib3.disable_warnings()
 
 
 VERSION = "0.1.0"
