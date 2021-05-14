@@ -53,8 +53,14 @@ def CalendarClientThread(config):
     calendarclient.Connect()
 
     while RunThread:
-        start = datetime(2021, 5, 10)
-        end   = datetime(2021, 5, 16)
+        today  = datetime.today()
+        today  = today.replace(hour=0, minute=0, second=0)  # begin of day
+        monday = today - timedelta(days=today.weekday())    # begin of week
+        start  = monday - timedelta(weeks=1)                # last week
+        end    = monday + timedelta(weeks=4)                # this week + 3 next weeks
+
+        #start = datetime(2021, 4, 28)
+        #end   = datetime(2021, 5, 16)
         calendarclient.GetEvents(start, end)
 
         # for each calendar
@@ -196,6 +202,7 @@ class CalendarClient(object):
 
 
     def GetEvents(self, start, end):
+        logging.debug("Get events from %s to %s", str(start), str(end))
         for name, calendar in self.calendars.items():
             remoteevents = calendar["remotecalendar"].date_search(start=start, end=end, expand=True)
             calendar["events"] = []
@@ -204,7 +211,6 @@ class CalendarClient(object):
 
                 # If all-day and start<end, expand
                 if event["allday"] == True and event["start"] != event["end"]:
-                    logging.debug("Allday: %s, Expand %s - %s", str(event["allday"]), event["start"], event["end"])
                     startdate = datetime.strptime(event["start"], "%Y-%m-%d").date()
                     while event["start"] < event["end"]:
                         calendar["events"].append(dict(event))  # append a copy
