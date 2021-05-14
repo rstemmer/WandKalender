@@ -146,16 +146,14 @@ class Row extends Element
 
 class CalendarHeadline extends Row
 {
-    constructor(users)
+    constructor(monthname, users)
     {
         //let users = window.WandKalender.config.users;
         super(Object.keys(users).length + 1, ["headline"]);
 
         // Add Month Name
         let monthcell = new Element("div", ["monthname"]);
-        let date      = new Date();
-        let month     = date.toLocaleString("default", { month: "long" });
-        monthcell.SetInnerText(month);
+        monthcell.SetInnerText(monthname);
         this.SetContent(0, monthcell);
 
         // Add User names
@@ -251,42 +249,40 @@ class MonthCalendar extends Table
         this.holidaycalendars = holidaycalendars;
         this.element.classList.add("Calendar");
 
-        this.now      = null;
-        this.firstDay = null;
-        this.lastDay  = null;
-        this.cache    = new Object();
-    }
-
-
-
-    CreateHeadline()
-    {
+        this.cache = new Object();
     }
 
 
 
     CreateCalendar(firstDay, lastDay)
     {
-        this.now      = new Date();
-        this.firstDay = firstDay;
-        this.lastDay  = lastDay;
-
+        let now = new Date();
         this.ClearTable();
 
         // Add Headline
-        let headline = new CalendarHeadline(this.users);
+        let monthname = firstDay.toLocaleString("default", { month: "long" });
+        let headline  = new CalendarHeadline(monthname, this.users);
         this.AddRow(0, headline);
 
         // Create Rows
-        let date      = new Date(this.firstDay);
+        let date      = new Date(firstDay);
 
-        let endtimestamp  = this.lastDay.valueOf();
+        let endtimestamp  = lastDay.valueOf();
         let datetimestamp = date.valueOf();
+        let currentmonth  = date.getMonth();
         while(datetimestamp < endtimestamp)
         {
             let istoday = false;
-            if(date.getDate() == this.now.getDate() && date.getMonth() == this.now.getMonth())
+            if(date.getDate() == now.getDate() && date.getMonth() == now.getMonth())
                 istoday = true;
+
+            if(currentmonth != date.getMonth())
+            {
+                monthname    = date.toLocaleString("default", { month: "long" });
+                currentmonth = date.getMonth();
+                headline     = new CalendarHeadline(monthname, this.users);
+                this.AddRow(currentmonth, headline);
+            }
 
             let row   = new CalendarRow(date, this.users.length, istoday);
             let rowid = CalcCalendarRowId(date);
