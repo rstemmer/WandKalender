@@ -1,0 +1,85 @@
+/*
+ * WandKalender,  a caldav front end for a simple event overview
+ * Copyright (C) 2021-2021  Ralf Stemmer <ralf.stemmer@gmx.net>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+table.Calendar
+{
+    table-layout:       fixed;
+    width:              100%;
+}
+
+.Calendar
+{
+    border-collapse:    collapse;
+}
+
+td
+{
+    padding:            0.1rem;
+    vertical-align:     top;
+    border:             var(--borderwidth) solid var(--bordercolor);
+}
+
+
+
+/* Full Row Formats */
+tr.weekend
+{
+    background-color:   var(--weekendcolor);
+}
+
+tr.today td:nth-child(n+2)
+{
+    background-color:   var(--todaycolor);
+}
+
+tr:first-child
+{
+    background-color:   var(--headlinecolor);
+}
+
+
+
+/* Special Cell Formats */
+td > div.monthname
+{
+    text-align:         center;
+    font-size:          1.3rem;
+}
+
+td > div.holiday
+{
+    font-size:          0.8rem;
+}
+
+
+/* Events */
+tr:nth-child(n+2) td:nth-child(n+2) > div
+{
+    padding:            0.1rem 0.2rem;
+    border:             var(--borderwidth) solid var(--entryframecolor);
+    border-radius:      var(--radius);
+    background-color:   var(--entrybackground);
+}
+
+
+
+/* Elements */
+td > div + div
+{
+    margin-top:      0.1rem;
+}

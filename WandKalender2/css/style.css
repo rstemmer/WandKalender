@@ -32,6 +32,7 @@
     --color-white:          #F0F0F0;
     --color-black:          #080808;
     --color-gold:           #A8A623;
+    --color-darkgray:       #302020;
     --color-gray:           #323234;
     --color-lightgray:      #C2C2C4;
     --color-brightred:      #FFAAAA;
@@ -41,10 +42,13 @@
 
     --radius:               0.3em;
     --borderwidth:          0.15em;
-    --bordercolor:          var(--color-black);
+    --bordercolor:          var(--color-darkgray);
     --weekendcolor:         var(--color-brightred);
     --weekcolor:            var(--color-lightgray);
-    --entrycolor:           var(--color-brightblue);
+    --todaycolor:           var(--color-brightyellow);
+    --headlinecolor:        var(--color-brightyellow);
+    --entrybackground:      #AAAAFF80;
+    --entryframecolor:      #AAAAFF;
 }
 
 
