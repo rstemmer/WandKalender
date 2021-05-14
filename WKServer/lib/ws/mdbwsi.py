@@ -29,13 +29,10 @@ import random
 import traceback
 
 class WKServerWebSocketInterface(object):
-
     def __init__(self):
-
         # The autobahn framework silently hides all exceptions - that sucks
         # So all possible exceptions must be caught here, so that they can be made visible.
         try:
-            pass
             self.calendarmanager = CalendarClientManager()
         except Exception as e:
             logging.exception(e)
@@ -55,15 +52,12 @@ class WKServerWebSocketInterface(object):
 
 
 
-    def onCalendarUpdate(self, name, events):
-        data = {}
-        data["name"]   = name
-        data["events"] = events
-        response    = {}
+    def onCalendarUpdate(self, calendardata):
+        response = {}
         response["method"]      = "notification"
         response["fncname"]     = "WKServer:CalendarUpdate"
         response["fncsig"]      = "onCalendarUpdate"
-        response["arguments"]   = data
+        response["arguments"]   = calendardata
         response["pass"]        = None
         success = self.SendPacket(response)
         return success

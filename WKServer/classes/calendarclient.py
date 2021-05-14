@@ -19,7 +19,7 @@
 import time
 import logging
 import threading
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from lib.cfg.wkserver   import WKServerConfig
 import caldav
 from icalendar import Calendar, Event
@@ -53,13 +53,15 @@ def CalendarClientThread(config):
     calendarclient.Connect()
 
     while RunThread:
-        calendarclient.GetEvents(datetime(2021, 5, 1), datetime(2021, 5, 8))
+        start = datetime(2021, 5, 10)
+        end   = datetime(2021, 5, 16)
+        calendarclient.GetEvents(start, end)
 
         # for each calendar
         for name, calendar in calendarclient.calendars.items():
 
             # Wait a minute
-            for t in range(60):
+            for t in range(30):         # TODO: Make configurable
                 if not RunThread:
                     return
                 else:
@@ -67,10 +69,23 @@ def CalendarClientThread(config):
 
             # Send event of one calendar
             logging.debug("Update %s", name)
-            events = calendar["events"]
+
+            if calendar["calendartype"] == "Holiday":
+                isholiday = True
+            else:
+                isholiday = False
+
+            calendardata = {}
+            calendardata["name"]        = name
+            calendardata["events"]      = calendar["events"]
+            calendardata["isholiday"]   = isholiday
+            calendardata["range"]       = {}
+            calendardata["range"]["start"] = str(start)
+            calendardata["range"]["end"]   = str(end)
+
             for callback in Callbacks:
                 try:
-                    callback(name, events)
+                    callback(calendardata)
                 except Exception as e:
                     logging.exception("A Stream Thread event callback function crashed!")
     return
@@ -166,15 +181,13 @@ class CalendarClient(object):
             if component.name != "VEVENT":
                 continue
             event = {}
-            event["start"]   = component.decoded("DTSTART")
-            event["end"]     = component.decoded("DTEND")
-            if type(event["start"]) == date:
-                event["start"] = datetime.combine(event["start"], datetime.min.time()).timestamp()
-                event["end"]   = datetime.combine(event["end"],   datetime.min.time()).timestamp()
+            event["start"] = component.decoded("DTSTART")
+            event["end"]   = component.decoded("DTEND")
+            event["start"] = str(event["start"])
+            event["end"]   = str(event["end"]  )
+            if type(component.decoded("DTSTART")) == date:
                 event["allday"]= True
             else:
-                event["start"] = event["start"].timestamp()
-                event["end"]   = event["end"].timestamp()
                 event["allday"]= False
 
             event["summary"] = component.decoded("SUMMARY").decode("utf-8")
@@ -188,7 +201,17 @@ class CalendarClient(object):
             calendar["events"] = []
             for remoteevent in remoteevents:
                 event = self.ProcessRemoteEvent(remoteevent)
-                calendar["events"].append(event)
+
+                # If all-day and start<end, expand
+                if event["allday"] == True and event["start"] != event["end"]:
+                    logging.debug("Allday: %s, Expand %s - %s", str(event["allday"]), event["start"], event["end"])
+                    startdate = datetime.strptime(event["start"], "%Y-%m-%d").date()
+                    while event["start"] < event["end"]:
+                        calendar["events"].append(dict(event))  # append a copy
+                        startdate += timedelta(days=1)
+                        event["start"] = str(startdate)
+                else:
+                    calendar["events"].append(event)
         return
 
 
