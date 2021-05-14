@@ -37,6 +37,7 @@ class WKServerWebSocketInterface(object):
         except Exception as e:
             logging.exception(e)
             raise e
+        self.cfg = WKServerConfig("/etc/wkserver.ini")
 
 
 
