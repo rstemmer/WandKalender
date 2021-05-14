@@ -5,8 +5,6 @@ if(typeof window.WandKalender === "undefined")
 if(typeof window.WandKalender.config === "undefined")
     window.WandKalender.config = new Object();
 
-window.WandKalender.config.caldavurl = "https://localhost/nextcloud/remote.php/dav/calendars/";
-
 window.WandKalender.config.users = 
     {
         "user1": "Test User 1",
@@ -20,8 +18,9 @@ window.WandKalender.config.holidaycalendars =
     ];
 
 // in seconds, 0: no update/reload
-window.WandKalender.config.updateinterval = 60 /*s*/;
-window.WandKalender.config.reloadinterval = 60*60 /*s*/;
+window.WandKalender.config.reconnectinterval = 60 /*s*/;
+//window.WandKalender.config.updateinterval = 60 /*s*/;
+//window.WandKalender.config.reloadinterval = 60*60 /*s*/;
 
 var CONFIG_VERSION      = 2.0;  // DO NOT CHANGE
 var WATCHDOG_RUN        = false;

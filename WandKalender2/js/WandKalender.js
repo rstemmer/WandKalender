@@ -63,7 +63,8 @@ function onWKServerWatchdogBarks()
 function onWKServerConnectionClosed()
 {
     window.console?.log("[WKS] Closed");
-    ConnectToWKServer();
+    let timeout = window.WandKalender.config.reconnectinterval * 1000;
+    window.setTimeout(()=>{ConnectToWKServer();}, timeout);
 }
 
 function onWKServerNotification(fnc, sig, data)
