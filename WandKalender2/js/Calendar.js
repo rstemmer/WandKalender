@@ -226,13 +226,16 @@ class CalendarRow extends Row
 
     UpdateCell(column, entry, isholiday)
     {
-        window.console?.log(`column: ${column}`);
         let cell = new CalendarCellEntry(entry, isholiday);
         let allday = entry.allday;
         if(allday && column != 0)   // Column 0 is the day. So entry is a holiday and shall be placed below the day-info
             this.AddContentOnTop(column, cell, isholiday);
         else
             this.AddContent(column, cell);
+
+        // Mark this row as holiday row if a holiday was added
+        if(isholiday === true)
+            this.element.classList.add("holiday");
     }
 }
 
