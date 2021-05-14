@@ -95,9 +95,9 @@ class Table extends Element
 
 class Row extends Element
 {
-    constructor(columns)
+    constructor(columns, classes=[])
     {
-        super("tr", ["Row"]);
+        super("tr", ["Row", ...classes]);
         this.columncount = columns;
 
         this.cells = new Array();
@@ -149,7 +149,7 @@ class CalendarHeadline extends Row
     constructor(users)
     {
         //let users = window.WandKalender.config.users;
-        super(Object.keys(users).length + 1);
+        super(Object.keys(users).length + 1, ["headline"]);
 
         // Add Month Name
         let monthcell = new Element("div", ["monthname"]);
