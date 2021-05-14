@@ -69,9 +69,9 @@ function onWKServerConnectionClosed()
 
 function onWKServerNotification(fnc, sig, data)
 {
-    window.console?.log("[WKS] Notification");
-    window.console?.log(" >> fnc: "+fnc+"; sig: "+sig);
-    window.console?.log(data);
+    //window.console?.log("[WKS] Notification");
+    //window.console?.log(" >> fnc: "+fnc+"; sig: "+sig);
+    //window.console?.log(data);
     window.WandKalender.webui.Update(data);
 }
 
