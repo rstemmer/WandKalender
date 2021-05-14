@@ -20,7 +20,7 @@ window.WandKalender.config.holidaycalendars =
 // in seconds, 0: no update/reload
 window.WandKalender.config.reconnectinterval = 60 /*s*/;
 //window.WandKalender.config.updateinterval = 60 /*s*/;
-//window.WandKalender.config.reloadinterval = 60*60 /*s*/;
+window.WandKalender.config.reloadinterval = 60*60 /*s*/;
 
 var CONFIG_VERSION      = 2.0;  // DO NOT CHANGE
 var WATCHDOG_RUN        = false;

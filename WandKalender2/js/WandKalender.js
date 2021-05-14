@@ -39,11 +39,15 @@ function Initialize()
     let screen           = document.getElementById("Screen");
     let users            = window.WandKalender.config.users;
     let holidaycalendars = window.WandKalender.config.holidaycalendars;
+    let reloadinterval   = window.WandKalender.config.reloadinterval * 1000;
 
     window.WandKalender.webui = new MonthCalendar(users, holidaycalendars);
     let webuielement     = window.WandKalender.webui.GetHTMLElement();
 
     screen.appendChild(webuielement);
+
+    window.console?.log(`Reload in ${reloadinterval}ms`);
+    window.setTimeout(()=>{ReloadPage();}, reloadinterval);
 }
 
 
@@ -80,6 +84,25 @@ function onWKServerMessage(fnc, sig, args, pass)
     window.console?.log("%c >> fnc: "+fnc+"; sig: "+sig, "color:#7a90c8");
 }
 
+
+
+function ReloadPage()
+{
+    // Only reload if server is available!
+    let checkurl   = window.location.origin + "/?rand=" + Math.random(); // random: avoid checking the cache!
+    let xmlrequest = new XMLHttpRequest();
+    
+    xmlrequest.open("HEAD", checkurl, true /*Async*/);
+    xmlrequest.timeout = 2000 /*ms*/;
+    xmlrequest.onload    = ()=>{window.location.reload(true);}; // On success, reload
+    xmlrequest.onerror   = ()=>{window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);};
+    xmlrequest.ontimeout = ()=>{window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);};
+    xmlrequest.onabort   = ()=>{window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);};
+
+    window.console?.log(`Checking if ${checkurl} is accessible`);
+    xmlrequest.send();
+    return;
+}
 
 // vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 
