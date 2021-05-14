@@ -37,7 +37,6 @@ body > #Screen
     /*
      * Source: https://stackoverflow.com/questions/35856013/rotate-all-html-element-whole-page-90-degree-with-css
      */
-/*
     transform:          rotate(90deg);
     transform-origin:   bottom left;
     position:           absolute;
@@ -45,7 +44,7 @@ body > #Screen
     left:               0;
     height:             100vw;
     width:              100vh;
-    */
+
     overflow:           auto;
 }
 
