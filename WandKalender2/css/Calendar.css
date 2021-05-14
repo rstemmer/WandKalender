@@ -66,7 +66,7 @@ td > div.holiday
     font-size:          0.8rem;
 }
 
-tr:first-child > td
+tr.headline > td
 {
     vertical-align:     middle;
 }
@@ -74,7 +74,10 @@ tr:first-child > td
 
 
 /* Events */
+/*
 tr:nth-child(n+2) td:nth-child(n+2) > div
+*/
+tr:not(.headline) td:nth-child(n+2) > div
 {
     padding:            0.1rem 0.2rem;
     border:             var(--borderwidth) solid var(--entryframecolor);
