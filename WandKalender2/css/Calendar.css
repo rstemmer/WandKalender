@@ -47,7 +47,7 @@ tr.today td:nth-child(n+2)
     background-color:   var(--todaycolor);
 }
 
-tr:first-child
+tr.headline
 {
     background-color:   var(--headlinecolor);
     text-align:         center;
