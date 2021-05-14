@@ -37,7 +37,7 @@ td
 
 
 /* Full Row Formats */
-tr.weekend
+tr.weekend, tr.holiday
 {
     background-color:   var(--weekendcolor);
 }
@@ -50,6 +50,7 @@ tr.today td:nth-child(n+2)
 tr:first-child
 {
     background-color:   var(--headlinecolor);
+    text-align:         center;
 }
 
 
@@ -57,7 +58,6 @@ tr:first-child
 /* Special Cell Formats */
 td > div.monthname
 {
-    text-align:         center;
     font-size:          1.3rem;
 }
 
@@ -65,6 +65,12 @@ td > div.holiday
 {
     font-size:          0.8rem;
 }
+
+tr:first-child > td
+{
+    vertical-align:     middle;
+}
+
 
 
 /* Events */
@@ -81,5 +87,16 @@ tr:nth-child(n+2) td:nth-child(n+2) > div
 /* Elements */
 td > div + div
 {
-    margin-top:      0.1rem;
+    margin-top:         0.1rem;
 }
+
+span+span
+{
+    margin-left:        1.5ch;
+}
+
+span.timespan
+{
+    display:            inline-block;
+}
+
