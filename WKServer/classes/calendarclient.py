@@ -182,7 +182,8 @@ class CalendarClient(object):
 
 
     def ProcessRemoteEvent(self, remoteevent):
-        ical = Calendar.from_ical(remoteevent.data)
+        ical   = Calendar.from_ical(remoteevent.data)
+        events = []
         for component in ical.walk():
             if component.name != "VEVENT":
                 continue
@@ -197,7 +198,8 @@ class CalendarClient(object):
                 event["allday"]= False
 
             event["summary"] = component.decoded("SUMMARY").decode("utf-8")
-        return event
+            events.append(event)
+        return events
 
 
 
@@ -207,17 +209,18 @@ class CalendarClient(object):
             remoteevents = calendar["remotecalendar"].date_search(start=start, end=end, expand=True)
             calendar["events"] = []
             for remoteevent in remoteevents:
-                event = self.ProcessRemoteEvent(remoteevent)
+                events = self.ProcessRemoteEvent(remoteevent)
 
-                # If all-day and start<end, expand
-                if event["allday"] == True and event["start"] != event["end"]:
-                    startdate = datetime.strptime(event["start"], "%Y-%m-%d").date()
-                    while event["start"] < event["end"]:
-                        calendar["events"].append(dict(event))  # append a copy
-                        startdate += timedelta(days=1)
-                        event["start"] = str(startdate)
-                else:
-                    calendar["events"].append(event)
+                for event in events:
+                    # If all-day and start<end, expand
+                    if event["allday"] == True and event["start"] != event["end"]:
+                        startdate = datetime.strptime(event["start"], "%Y-%m-%d").date()
+                        while event["start"] < event["end"]:
+                            calendar["events"].append(dict(event))  # append a copy
+                            startdate += timedelta(days=1)
+                            event["start"] = str(startdate)
+                    else:
+                        calendar["events"].append(event)
         return
 
 
