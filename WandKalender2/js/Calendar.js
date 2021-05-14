@@ -340,58 +340,6 @@ class MonthCalendar extends Table
         }
         return;
     }
-
-
-
-    /*
-    Update(usersdata)
-    {
-        this.ClearCalendar();
-
-        for(let user of this.users)
-        {
-            // Check if this users calendar shall be displayed
-            let username  = user;
-            if(!usersdata.hasOwnProperty(user))
-                continue;
-
-            let calendars = usersdata[user].calendars;
-            //window.console && console.log(username);
-            for(let calendar of calendars)
-            {
-                // Data not yet ready? Skip this calendar for now.
-                if(calendar.valid !== true)
-                {
-                    window.console?.log(`Calendar ${calendar.name} not yet ready to render!`);
-                    continue;
-                }
-
-                //window.console && console.log(calendar);
-
-                // Check if this is a holiday entry
-                let isholiday = false;
-                for(let holidaycalendar of this.holidaycalendars)
-                {
-                    if(calendar.name.startsWith(holidaycalendar))
-                        isholiday = true;
-                }
-                window?.console?.log(`${calendar.name} in ${this.holidaycalendars}`);
-                window?.console?.log(` => Is Holiday: ${isholiday}`);
-
-                //window.console && console.log(calendar.events);
-                for(let calevent of calendar.events) // keep in mind that an event can be repetitive
-                {
-                    for(let calentry of calevent.entries)
-                    {
-                        //window.console && console.log(calentry);
-                        let date = calentry.date;
-                        this.UpdateCell(user, date, calentry, isholiday);
-                    }
-                }
-            }
-        }
-    }
-    */
 }
 
 
