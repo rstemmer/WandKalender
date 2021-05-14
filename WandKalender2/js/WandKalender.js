@@ -33,17 +33,24 @@ window.onload = function ()
 }
 
 
-
 function Initialize()
 {
     ConnectToWKServer();
-    let screen = document.getElementById("Screen");
+    let screen           = document.getElementById("Screen");
+    let users            = window.WandKalender.config.users;
+    let holidaycalendars = window.WandKalender.config.holidaycalendars;
+
+    window.WandKalender.webui = new MonthCalendar(users, holidaycalendars);
+    let webuielement     = window.WandKalender.webui.GetHTMLElement();
+
+    screen.appendChild(webuielement);
 }
 
 
 function onWKServerConnectionOpen()
 {
     window.console?.log("[WKS] Open");
+    //WKServer_Request("GetAllEvents", "UpdateAllEvents");
 }
 function onWKServerConnectionError()
 {
@@ -59,9 +66,12 @@ function onWKServerConnectionClosed()
     ConnectToWKServer();
 }
 
-function onWKServerNotification(fnc, sig, rawdata)
+function onWKServerNotification(fnc, sig, data)
 {
     window.console?.log("[WKS] Notification");
+    window.console?.log(" >> fnc: "+fnc+"; sig: "+sig);
+    window.console?.log(data);
+    window.WandKalender.webui.Update(data);
 }
 
 function onWKServerMessage(fnc, sig, args, pass)
