@@ -197,7 +197,11 @@ class CalendarClient(object):
             else:
                 event["allday"]= False
 
-            event["summary"] = component.decoded("SUMMARY").decode("utf-8")
+            try:
+                event["summary"] = component.decoded("SUMMARY").decode("utf-8")
+            except KeyError as e:
+                logging.error("Key Error: \"SUMMARY\" not found for event at %s!", event["start"])
+                event["summary"] = "Error: Fehlende Beschreibung!"
             events.append(event)
         return events
 
