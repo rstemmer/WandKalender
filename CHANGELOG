@@ -1,3 +1,7 @@
+0.2.0 - 22.05.2021 - Using Web-Socket back-end
+ - Loads calendar data via back-end and sends them preprocessed to the front-end
+ - Using a sliding-windows approach to show show less past dates and more future dates
+
 0.1.0 - 06.04.2021 - First Prototype
  - Loads calendar data from Nextcloud server
  - Displays monthly calendar
