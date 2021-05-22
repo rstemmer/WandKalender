@@ -36,7 +36,7 @@
     --color-gray:           #323234;
     --color-lightgray:      #C2C2C4;
     --color-brightred:      #FFAAAA;
-    --color-brightgreen:    #2C832C;
+    --color-brightgreen:    #AAFFAA;
     --color-brightblue:     #AAAAFF;
     --color-brightyellow:   #FFFFAA;
 
@@ -45,7 +45,7 @@
     --bordercolor:          var(--color-darkgray);
     --weekendcolor:         var(--color-brightred);
     --weekcolor:            var(--color-lightgray);
-    --todaycolor:           var(--color-brightyellow);
+    --todaycolor:           var(--color-brightgreen);
     --headlinecolor:        var(--color-brightyellow);
     --entrybackground:      #AAAAFF80;
     --entryframecolor:      #AAAAFF;
