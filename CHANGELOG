@@ -1,3 +1,7 @@
+0.2.1 - 03.07.2021
+ - Sort events of a date by their start time
+ - Fixes a crash when the CalDav server is not reachable
+
 0.2.0 - 22.05.2021 - Using Web-Socket back-end
  - Loads calendar data via back-end and sends them preprocessed to the front-end
  - Using a sliding-windows approach to show show less past dates and more future dates
