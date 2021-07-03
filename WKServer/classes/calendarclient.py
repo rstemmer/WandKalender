@@ -203,6 +203,7 @@ class CalendarClient(object):
                 logging.error("Key Error: \"SUMMARY\" not found for event at %s!", event["start"])
                 event["summary"] = "Error: Fehlender Termin-Titel!"
             events.append(event)
+
         return events
 
 
@@ -231,6 +232,9 @@ class CalendarClient(object):
                             event["start"] = str(startdate)
                     else:
                         calendar["events"].append(event)
+
+                # Sort by date and time
+                calendar["events"].sort(key=lambda event: event["start"])
         return
 
 
