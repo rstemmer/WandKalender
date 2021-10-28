@@ -53,6 +53,14 @@ def CalendarClientThread(config):
     calendarclient.Connect()
 
     while RunThread:
+
+        # Wait some time
+        for t in range(30):         # TODO: Make configurable
+            if not RunThread:
+                return
+            else:
+                time.sleep(1)
+
         today  = datetime.today()
         today  = today.replace(hour=0, minute=0, second=0)  # begin of day
         monday = today - timedelta(days=today.weekday())    # begin of week
@@ -66,12 +74,8 @@ def CalendarClientThread(config):
         # for each calendar
         for name, calendar in calendarclient.calendars.items():
 
-            # Wait a minute
-            for t in range(30):         # TODO: Make configurable
-                if not RunThread:
-                    return
-                else:
-                    time.sleep(1)
+            # Wait some seconds to reduce load
+            time.sleep(2)   # TODO: Make configurable
 
             # Send event of one calendar
             logging.debug("Update %s", name)
