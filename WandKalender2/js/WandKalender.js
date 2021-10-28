@@ -35,17 +35,22 @@ window.onload = function ()
 
 function Initialize()
 {
+    // Connect to the web socket server and wait for data
     ConnectToWKServer();
+
+    // Read configuration
     let screen           = document.getElementById("Screen");
     let users            = window.WandKalender.config.users;
     let holidaycalendars = window.WandKalender.config.holidaycalendars;
     let reloadinterval   = window.WandKalender.config.reloadinterval * 1000;
 
+    // Create UI and start handling data from the server
     window.WandKalender.webui = new MonthCalendar(users, holidaycalendars);
     let webuielement     = window.WandKalender.webui.GetHTMLElement();
 
     screen.appendChild(webuielement);
 
+    // Prepare for page reload to get updated Java Scrips
     window.console?.log(`Reload in ${reloadinterval}ms`);
     window.setTimeout(()=>{ReloadPage();}, reloadinterval);
 }
@@ -95,13 +100,28 @@ function ReloadPage()
     xmlrequest.open("HEAD", checkurl, true /*Async*/);
     xmlrequest.timeout = 2000 /*ms*/;
     xmlrequest.onload    = ()=>{window.location.reload(true);}; // On success, reload
-    xmlrequest.onerror   = ()=>{window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);};
-    xmlrequest.ontimeout = ()=>{window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);};
-    xmlrequest.onabort   = ()=>{window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);};
+    xmlrequest.onerror   = ()=>{onReloadError();};
+    xmlrequest.ontimeout = ()=>{onReloadError();};
+    xmlrequest.onabort   = ()=>{onReloadError();};
 
     window.console?.log(`Checking if ${checkurl} is accessible`);
     xmlrequest.send();
     return;
+}
+
+
+function onReloadError()
+{
+    let screen = document.getElementById("Screen");
+    let message = new Element("div");
+
+    let date = new Date();
+    let now  = date.getHours() + ":" + date.getMinutes();
+
+    message.SetInnerText(`Update um ${now} fehlgeschlagen. Nächster Versuch in 5 Minuten.`);
+    screen.appendChild(message.GetHTMLElement());
+
+    window.setTimeout(()=>{ReloadPage();}, 1000*60*5/*5min*/);
 }
 
 // vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
