@@ -66,7 +66,7 @@ def CalendarClientThread(config):
         monday = today - timedelta(days=today.weekday())    # begin of week
         #start  = monday - timedelta(weeks=1)                # last week
         start  = monday                                     # start this week
-        end    = monday + timedelta(weeks=4)                # this week + 3 next weeks
+        end    = monday + timedelta(weeks=(1+4))                # this week + 4 next weeks
 
         #start = datetime(2021, 4, 28)
         #end   = datetime(2021, 5, 16)
