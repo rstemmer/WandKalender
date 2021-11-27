@@ -75,6 +75,16 @@ tr.headline > td
 }
 
 
+/* Day Name Column */
+td:first-child
+{
+    --firstcolumnwidth: 20ch;
+    padding-left: 2ch;
+    width:     var(--firstcolumnwidth);
+    min-width: var(--firstcolumnwidth);
+    max-width: var(--firstcolumnwidth);
+}
+
 
 /* Events */
 /*
