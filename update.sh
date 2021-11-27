@@ -7,15 +7,15 @@ if ! type rsync 2> /dev/null > /dev/null ; then
     exit 1
 fi
 
-SOURCEDIR=./WandKalender
-DESTINATION=/srv/WandKalender
-rsync -uav  \
-    --exclude '*.swp' \
-    --exclude '*.swo' \
-    --exclude '*~' \
-    --exclude 'config.js' \
-    --delete \
-    $SOURCEDIR/ $DESTINATION/. > /dev/null
+#SOURCEDIR=./WandKalender
+#DESTINATION=/srv/WandKalender
+#rsync -uav  \
+#    --exclude '*.swp' \
+#    --exclude '*.swo' \
+#    --exclude '*~' \
+#    --exclude 'config.js' \
+#    --delete \
+#    $SOURCEDIR/ $DESTINATION/. > /dev/null
 
 SOURCEDIR=./WandKalender2
 DESTINATION=/srv/WandKalender2
