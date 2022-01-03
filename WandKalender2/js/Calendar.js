@@ -174,7 +174,8 @@ class CalendarHeadline extends Row
 
 function CalcCalendarRowId(date)
 {
-    return date.getMonth() * 100 + date.getDate()
+    let number = date.getMonth() * 100 + date.getDate();
+    return `entry_${number}`;
 }
 
 
@@ -309,7 +310,8 @@ class MonthCalendar extends Table
         let rowid   = CalcCalendarRowId(start);
         let row     = this.GetRowById(rowid);
 
-        row?.UpdateCell(column, entry, isholiday);  // Row may be not available if date is not in range
+        if(typeof row?.UpdateCell === "function")
+            row?.UpdateCell(column, entry, isholiday);  // Row may be not available if date is not in range
     }
 
 
