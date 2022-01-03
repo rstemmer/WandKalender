@@ -1,3 +1,7 @@
+0.3.0 - 03.01.2022
+ - Clock showing date and time added
+ - Fixes a crash caused by invalid row IDs
+
 0.2.1 - 03.07.2021
  - Sort events of a date by their start time
  - Fixes a crash when the CalDav server is not reachable
