@@ -47,6 +47,7 @@
     --weekcolor:            var(--color-lightgray);
     --todaycolor:           var(--color-brightgreen);
     --headlinecolor:        var(--color-lightgray);
+    --clockbackground:      var(--color-lightgray);
     --entrybackground:      #AAAAFF80;
     --entryframecolor:      #AAAAFF;
 }

@@ -48,7 +48,12 @@ function Initialize()
     window.WandKalender.webui = new MonthCalendar(users, holidaycalendars);
     let webuielement     = window.WandKalender.webui.GetHTMLElement();
 
+    window.WandKalender.clock = new Clock();
+    window.WandKalender.clock.Update();
+    let clockelement = window.WandKalender.clock.GetHTMLElement();
+
     screen.appendChild(webuielement);
+    screen.appendChild(clockelement);
 
     // Prepare for page reload to get updated Java Scrips
     window.console?.log(`Reload in ${reloadinterval}ms`);
