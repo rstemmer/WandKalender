@@ -1,6 +1,6 @@
 /*
  * WandKalender,  a caldav front end for a simple event overview
- * Copyright (C) 2021-2021  Ralf Stemmer <ralf.stemmer@gmx.net>
+ * Copyright (C) 2021 - 2022  Ralf Stemmer <ralf.stemmer@gmx.net>
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
     position:           absolute;
     bottom:             0px;
     width:              100%;
+    padding:            3rem 1.5rem;
 
     background:         var(--clockbackground);
     box-shadow:         0rem 0rem 4rem 5rem var(--color-white);
@@ -34,8 +35,10 @@
 .Clock > div
 {
     display:            flex;
-
-    margin:             1.5rem;
+}
+.Clock > div+div
+{
+    margin-top:        1.5rem;
 }
 
 
