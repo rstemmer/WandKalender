@@ -48,11 +48,17 @@ tr.today td:nth-child(n+2)
 tr.today
 {
     background-color:   var(--todaycolor);
+    outline:            2px solid var(--color-green);
+}
+tr.today > td
+{
+    border:             2px solid var(--color-green);
 }
 
 tr.headline
 {
-    background-color:   var(--headlinecolor);
+    color:              var(--headlinefgcolor);
+    background-color:   var(--headlinebgcolor);
     text-align:         center;
 }
 
