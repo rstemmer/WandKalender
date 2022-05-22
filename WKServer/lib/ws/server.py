@@ -1,5 +1,5 @@
 # MusicDB,  a music manager with web-bases UI that focus on music.
-# Copyright (C) 2017,2018  Ralf Stemmer <ralf.stemmer@gmx.net>
+# Copyright (C) 2017 - 2022  Ralf Stemmer <ralf.stemmer@gmx.net>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 This module provides the server infrastructure of the server.
 """
 
-from autobahn.asyncio.websocket import WebSocketServerProtocol, WebSocketServerFactory
 from lib.ws.websocket           import WebSocket, WKServerWebSocketFactory
 from lib.ws.mdbwsi              import WKServerWebSocketInterface
 import json
