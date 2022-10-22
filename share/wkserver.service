@@ -1,0 +1,37 @@
+# systemd unit file for WWKServer
+
+[Unit]
+Description=WandKalender WebSocket Server
+After=network.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/wkserver
+
+Type=notify
+NotifyAccess=main
+
+User=wkserver
+Group=wkserver
+
+Restart=on-failure
+RestartSec=10
+
+ProtectSystem=full
+
+CapabilityBoundingSet=~CAP_SYS_TIME CAP_WAKE_ALARM CAP_SYS_BOOT CAP_MKNOD CAP_SYS_RAWIO CAP_SYS_ADMIN CAP_SYS_PTRACE CAP_IPC_OWNER CAP_SYS_CHROOT CAP_SYS_PACCT CAP_KILL
+NoNewPrivileges=true
+ProtectClock=true
+ProtectHostname=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectHome=true
+MemoryDenyWriteExecute=true
+PrivateTmp=true
+RestrictRealtime=true
+SystemCallFilter=~@mount @clock @cpu-emulation @reboot @swap @obsolete
+
+[Install]
+WantedBy=multi-user.target
+
+# vim: syntax=systemd nospell
