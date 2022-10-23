@@ -1,5 +1,5 @@
 # WKServer,  Web-Socket server for the WandKalendar project
-# Copyright (C) 2021  Ralf Stemmer <ralf.stemmer@gmx.net>
+# Copyright (C) 2021 - 2022  Ralf Stemmer <ralf.stemmer@gmx.net>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import time
 import logging
 import threading
 from datetime import date, datetime, timedelta
-from lib.cfg.wkserver   import WKServerConfig
+from wkserver.lib.cfg.wkserver   import WKServerConfig
 import caldav
 from icalendar import Calendar, Event
 

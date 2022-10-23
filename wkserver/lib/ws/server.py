@@ -17,8 +17,8 @@
 This module provides the server infrastructure of the server.
 """
 
-from lib.ws.websocket           import WebSocket, WKServerWebSocketFactory
-from lib.ws.mdbwsi              import WKServerWebSocketInterface
+from wkserver.lib.ws.websocket           import WebSocket, WKServerWebSocketFactory
+from wkserver.lib.ws.mdbwsi              import WKServerWebSocketInterface
 import json
 import ssl
 import asyncio

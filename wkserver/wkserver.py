@@ -22,10 +22,11 @@ import os
 import sys
 import grp
 import logging
-from lib.filesystem     import Filesystem
-from lib.cfg.wkserver   import WKServerConfig
-from lib.logging        import MusicDBLogger
-from classes.server     import WKServer
+import systemd.daemon
+from wkserver.lib.filesystem     import Filesystem
+from wkserver.lib.cfg.wkserver   import WKServerConfig
+from wkserver.lib.logging        import MusicDBLogger
+from wkserver.classes.server     import WKServer
 import urllib3
 urllib3.disable_warnings()
 
@@ -34,9 +35,7 @@ VERSION = "0.1.1"
 
 DEFAULTCONFIGFILE = "/etc/wkserver.ini"
 
-
-
-if __name__ == "__main__":
+def main():
     print("\033[1;31mWKServer [\033[1;34m" + VERSION + "\033[1;31m]\033[0m")
 
     # Generate argument parser
@@ -113,8 +112,14 @@ if __name__ == "__main__":
     server = WKServer(config)
     server.Initialize()
     server.StartWebSocketServer()
+    logging.debug("Informing SystemD that WKServer is read")
+    systemd.daemon.notify("READY=1")
     server.Run()
 
+
+
+if __name__ == "__main__":
+    main()
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 

@@ -13,7 +13,7 @@ if [ ! -d "$repository/.git" ] ; then
     exit 1
 fi
 
-VersionSourceFile="../WKServer/wkserver"
+VersionSourceFile="../wkserver/wkserver.py"
 version=$(grep VERSION $VersionSourceFile | head -n 1 | cut -d "=" -f 2 | tr -d "\" ")
 name="wkserver"
 
@@ -38,7 +38,7 @@ function BuildSource {
     mkdir -p $tmp
     rm -f "../pkg/${pkgname}.tar.zst"
 
-    cp -r WKServer             $tmp
+    cp -r wkserver             $tmp
     cp -r share                $tmp
     cp    README.md            $tmp
     cp    LICENSE              $tmp

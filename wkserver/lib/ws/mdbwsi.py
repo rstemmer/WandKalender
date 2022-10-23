@@ -1,5 +1,5 @@
 # MusicDB,  a music manager with web-bases UI that focus on music.
-# Copyright (C) 2017-2021  Ralf Stemmer <ralf.stemmer@gmx.net>
+# Copyright (C) 2017-2022  Ralf Stemmer <ralf.stemmer@gmx.net>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@ Available Methods
 ^^^^^^^^^^^^^^^^^
 
 """
-from lib.cfg.wkserver   import WKServerConfig
-from classes.calendarclient import CalendarClientManager
+from wkserver.lib.cfg.wkserver   import WKServerConfig
+from wkserver.classes.calendarclient import CalendarClientManager
 from threading          import Thread
 import os
 import logging

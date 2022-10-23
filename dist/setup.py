@@ -15,7 +15,7 @@ def ReadVersion():
     with open(versionpath, "r") as versionfile:
         firstline = versionfile.readline()
 
-    version = firstline.split(":")[1].strip()
+    version = firstline.strip()
     return version
 
 
@@ -28,7 +28,7 @@ def ReadReadme():
 
 
 setuptools.setup(
-        name            = "musicdb",
+        name            = "wkserver",
         version         = ReadVersion(),
         author          = "Ralf Stemmer",
         author_email    = "ralf.stemmer@gmx.net",
@@ -43,7 +43,7 @@ setuptools.setup(
         packages        = setuptools.find_packages(),
         entry_points={
                 "console_scripts": [
-                    "wkserver=WKServer.wkserver:main",
+                    "wkserver=wkserver.wkserver:main",
                     ],
                 },
         package_data={
