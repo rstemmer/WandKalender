@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# MusicDB,  a music manager with web-bases UI that focus on music.
-# Copyright (C) 2017-2020  Ralf Stemmer <ralf.stemmer@gmx.net>
+# WKServer,  Web-Socket server for the WandKalendar project
+# Copyright (C) 2020 - 2022  Ralf Stemmer <ralf.stemmer@gmx.net>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import urllib3
 urllib3.disable_warnings()
 
 
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 
 DEFAULTCONFIGFILE = "/etc/wkserver.ini"
 

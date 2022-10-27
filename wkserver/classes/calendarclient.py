@@ -52,10 +52,15 @@ def CalendarClientThread(config):
     calendarclient = CalendarClient(config)
     calendarclient.Connect()
 
+    updaterate = config.data.updaterate
+    interdelay = config.data.interdatadelay
+    pastweeks  = config.data.past
+    futureweeks= config.data.future
+
     while RunThread:
 
         # Wait some time
-        for t in range(30):         # TODO: Make configurable
+        for t in range(updaterate):
             if not RunThread:
                 return
             else:
@@ -64,19 +69,16 @@ def CalendarClientThread(config):
         today  = datetime.today()
         today  = today.replace(hour=0, minute=0, second=0)  # begin of day
         monday = today - timedelta(days=today.weekday())    # begin of week
-        #start  = monday - timedelta(weeks=1)                # last week
-        start  = monday                                     # start this week
-        end    = monday + timedelta(weeks=(1+4))                # this week + 4 next weeks
+        start  = monday - timedelta(weeks=pastweeks)        # from n weeks in the past
+        end    = monday + timedelta(weeks=(1+futureweeks))  # this week + n next weeks
 
-        #start = datetime(2021, 4, 28)
-        #end   = datetime(2021, 5, 16)
         calendarclient.GetEvents(start, end)
 
         # for each calendar
         for name, calendar in calendarclient.calendars.items():
 
             # Wait some seconds to reduce load
-            time.sleep(2)   # TODO: Make configurable
+            time.sleep(interdelay)
 
             # Send event of one calendar
             logging.debug("Update %s", name)

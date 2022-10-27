@@ -67,6 +67,8 @@ class WEBSOCKET:
     pass
 class CALDAV:
     pass
+class DATA:
+    pass
 class TLS:
     pass
 class LOG:
@@ -98,10 +100,21 @@ class WKServerConfig(Config):
         if not self.websocket.apikey:
             logging.warning("Value of [websocket]->apikey is not set!")
 
+
+        # [caldav]
         self.caldav = CALDAV()
         self.caldav.username     = self.Get(str, "caldav","username",          "user")
         self.caldav.password     = self.Get(str, "caldav","password",          "password")
         self.caldav.url          = self.Get(str, "caldav","url",               "https://localhost:443")
+
+
+        # [data]
+        self.data = DATA()
+        self.data.updaterate    = self.Get(int, "data", "updaterate",       30)
+        self.data.interdatadelay= self.Get(int, "data", "interdatadelay",    1)
+        self.data.past          = self.Get(int, "data", "past",              0)
+        self.data.future        = self.Get(int, "data", "future",            4)
+
 
         # [TLS]
         self.tls = TLS()
