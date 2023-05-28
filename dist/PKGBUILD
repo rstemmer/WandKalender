@@ -1,6 +1,6 @@
 # Maintainer: Ralf Stemmer <ralf.stemmer@gmx.net>
 pkgname=wkserver
-pkgver=0.2.0
+pkgver=0.2.1
 pkgrel=1
 epoch=
 pkgdesc="An interface between the WandKalender web application and an ICS server",

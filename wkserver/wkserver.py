@@ -31,7 +31,7 @@ import urllib3
 urllib3.disable_warnings()
 
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 
 DEFAULTCONFIGFILE = "/etc/wkserver.ini"
 

@@ -220,6 +220,7 @@ class CalendarClient(object):
         for name, calendar in self.calendars.items():
             try:
                 remoteevents = calendar["remotecalendar"].date_search(start=start, end=end, expand=True)
+                #remoteevents = calendar["remotecalendar"].search(start=start, end=end, expand=True)
             except Exception as e:
                 logging.warning("Accessing %s failed with error %s! \033[0m(Calendar will be ignored this time)",
                         str(name), str(e))
